@@ -1,7 +1,4 @@
 {
   "template": "cmake",
-  "kill": "qmlscene",
-  "dependencies_target": [
-     "libsqlite3-dev"
-   ]
+  "kill": "qmlscene"
 }

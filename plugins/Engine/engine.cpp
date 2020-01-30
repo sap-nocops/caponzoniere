@@ -13,68 +13,74 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "engine.h"
 
 #include <QDebug>
-
-#include "engine.h"
-#include <sqlite3.h> 
+#include <QFile>
+#include <QtSql>
 
 static int getCountResult(void *data, int argc, char **argv, char **azColName){
    qDebug() << "Count: " << argv[0];
    return 0;
 }
 
-Engine::Engine() {
-	int error = sqlite3_open("caponzoniere.db", &db);
-	if (error) {
-	   throw sqlite3_errmsg(db);
-	}
+Engine::Engine() : m_db(new QSqlDatabase()) {
+    *m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db->setDatabaseName("caponzoniere.db");
+    if (!m_db->open()) {
+        qDebug() << "failed to connect to db";
+        return;
+    }
+    qDebug() << "connected";
+    initDb();
 }
 
 Engine::~Engine() {
-	sqlite3_close(db);
 }
 
 void Engine::initDb() {
-	char *zErrMsg = 0;
-	const char *sqlCreateSongsTable = "CREATE TABLE IF NOT EXISTS songs("  \
-    	"id            INTEGER 	 PRIMARY KEY    AUTOINCREMENT," \
-    	"title         CHAR(10)			 NOT NULL," \
-    	"type_id    INT 				 NOT NULL," \
-    	"lyrics       CHAR(300);";
-    const char *sqlCreateSongTypeTable = "CREATE TABLE IF NOT EXISTS songs("  \
-    	"id            INTEGER 	 PRIMARY KEY," \
-    	"name       CHAR(10)	 NOT NULL," \
-    	"duration  INT 				 NOT NULL;";
-    const char *sqlCheckIfAlreadyInit = "SELECT COUNT(*) FROM songs;";
-    const char *sqlInsert = "INSERT INTO songs (title, type_id, lyrics) "  \
-         "VALUES ('Dona Maria do camboatà', 1, 'Dona Maria do camboatà ela chega na venda e comenca a gingar'); " \
-         "INSERT INTO songs (title, type_id, lyrics) "  \
-         "VALUES ('Camungere', 1, 'Camungere come vai como ta camungere como vai voce camungere como vai de saude camungere para mi è un prazer'); "     \
-         "INSERT INTO songs (title, type_id, lyrics) "  \
-         "VALUES ('Dona Alice', 1, 'Dona Alice nao me pegue nao, nao me aggarra nao me pegue nao, Dona Alice nao me pegue nao, nao me pegue nao me pegue nao me pegue nao');" \
-         "INSERT INTO songs (title, type_id, lyrics) "  \
-         "VALUES ('Marinhero sò', 1, 'Eu nao sou da qui, Marinhero sò, eu nao tenho amor, Marinhero sò, eu so da bahia, Marinhero sò, de San Salvador ');";
-
-    int res = sqlite3_exec(db, sqlCreateSongTypeTable, nullptr, 0, &zErrMsg);
-    if (res != SQLITE_OK) {
-    	qDebug() <<  zErrMsg;
-    	sqlite3_free(zErrMsg);
-    	throw "can't create song_type table";
+    QSqlQuery query(*m_db);
+    if (query.exec("SELECT COUNT(*) FROM songs")) {
+        qDebug() << "database already initialized";
+        return;
     }
 
-    res = sqlite3_exec(db, sqlCreateSongsTable, nullptr, 0, &zErrMsg);
-    if (res != SQLITE_OK) {
-    	qDebug() <<  zErrMsg;
-    	sqlite3_free(zErrMsg);
-    	throw "can't create songs table";
+    QFile file("initDb.sql");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Could not open file: " << file.fileName();
+        return;
     }
 
-    res = sqlite3_exec(db, sqlCheckIfAlreadyInit, getCountResult, 0, &zErrMsg);
+    QString sql;
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        sql += in.readLine() + "\n";
+    }
+    file.close();
+
+    QStringList statements = sql.split(";", QString::SkipEmptyParts);
+    foreach (QString statement, statements) {
+        if (statement.trimmed() == "") {
+            continue;
+        }
+
+        //QSqlQuery query(*m_db);
+        if (!query.exec(statement)) {
+            qDebug() << "Error executing database file: " << file.fileName();
+            qDebug() << query.lastError().text();
+            qDebug() << "SQLite string: " << query.lastQuery();
+        }
+    }
 }
 
 void Engine::playRandomSongs() {
-
+    QSqlQuery query(*m_db);
+    if (!query.exec("SELECT COUNT(*) FROM songs")) {
+        qDebug() << "nullaaaaa";
+    }
+    if (query.next()) {
+        qDebug() << query.value(0).toString();
+    }
 }
 
 void Engine::listSongs() {

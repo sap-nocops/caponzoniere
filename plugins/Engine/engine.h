@@ -18,7 +18,7 @@
 #define ENGINE_H
 
 #include <QObject>
-#include <sqlite3.h>
+#include <QtSql/QSqlQuery>
 
 class Engine: public QObject {
     Q_OBJECT
@@ -32,7 +32,7 @@ public:
     Q_INVOKABLE void getSongLyrics();
 
 private:
-	sqlite3 *db;
+	QSqlDatabase *m_db;
 
 	void initDb();
 };
