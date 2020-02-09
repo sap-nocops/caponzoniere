@@ -14,19 +14,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RUNNER_H
-#define RUNNER_H
+#ifndef WORKER_H
+#define WORKER_H
 
- #include <QStringList> 
 
-class Runner {
+#include <QObject>
+#include <QStringList> 
 
+class Worker : public QObject {
+    Q_OBJECT
 public:
-    void provideTitle(QStringList titles);
-    void setRunning(bool running);
-
+    Worker();
+    ~Worker();
+    void setTitles(QStringList titles);
+public slots:
+    void process();
+    void stop();
+signals:
+    void songChanged(QString title);
 private:
     bool running;
+    QStringList titles;
+    QString getNextTitle();
 };
 
 #endif

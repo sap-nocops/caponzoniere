@@ -19,13 +19,15 @@
 
 #include <QObject>
 #include <QtSql/QSqlQuery>
-#include "runner.h"
+
+#include "worker.h"
 
 class Engine: public QObject {
     Q_OBJECT
 
 signals:
 	void songChanged(QString title);
+	void randomSongsFinished();
 
 public:
     Engine();
@@ -37,9 +39,11 @@ public:
 
 private:
 	QSqlDatabase *m_db;
-	Runner *runner;
+	Worker *worker;
 
 	void initDb();
+    QStringList getSongTitles();
+    void stopRandomSongs();
 };
 
 #endif

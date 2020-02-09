@@ -22,7 +22,6 @@ import Qt.labs.settings 1.0
 
 import Engine 1.0
 
-
 Page {
     anchors.fill: parent
 
@@ -42,18 +41,23 @@ Page {
         }
 
         Text {
-            id: title
+            id: songTitle
             Layout.alignment: Qt.AlignHCenter
-            text: "Hooray"
-            font.pixelSize: units.gu(10)
+            font.pixelSize: units.gu(7)
         }
     }
 
     Connections {
         target: Engine
         onSongChanged: {
-            console.log("song changed emitted")
-            title.text = title
+            songTitle.text = title
+        }
+    }
+
+    Connections {
+        target: pageStack
+        onBackward: {
+            Engine.stopRandomSongs()
         }
     }
 

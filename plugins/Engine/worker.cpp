@@ -13,22 +13,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "runner.h"
+#include "worker.h"
 
 #include <QDebug>
 
 #include <chrono>
 #include <thread>
 
-void Runner::provideTitle(QStringList titles) {
-    qDebug() << "provideTitle";
+Worker::Worker() {
+	this->running = true;
+}
+
+Worker::~Worker() {
+}
+
+void Worker::process() {
+	for (int i = 10;i >0 && this->running;i--) {
+		emit songChanged(QString::number(i));
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
     while (this->running) {
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        //emit songChanged("aiaiaiaiai");
+        emit songChanged(this->getNextTitle());
+        std::this_thread::sleep_for(std::chrono::seconds(7));
         qDebug() << "song change emitted";
     }
 }
 
-void Runner::setRunning(bool running) {
+void Worker::stop() {
+    qDebug() << "STOPPED";
     this->running = running;
+}
+
+QString Worker::getNextTitle() {
+    return this->titles.at(rand() % this->titles.size());
+}
+
+void Worker::setTitles(QStringList titles) {
+    this->titles = titles;
 }

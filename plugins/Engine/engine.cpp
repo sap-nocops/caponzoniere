@@ -18,9 +18,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QtSql>
-
-#include <chrono>
-#include <thread>
+#include <QThread>
 
 Engine::Engine() : m_db(new QSqlDatabase()) {
     *m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -31,7 +29,7 @@ Engine::Engine() : m_db(new QSqlDatabase()) {
     }
     qDebug() << "connected";
     initDb();
-    this->runner = new Runner();
+    this->worker = new Worker();
 }
 
 Engine::~Engine() {
@@ -72,18 +70,38 @@ void Engine::initDb() {
 }
 
 void Engine::playRandomSongs() {
+    QStringList titles = getSongTitles();
+    if (titles.isEmpty()) {
+        return;
+    }
+    QThread* thread = new QThread;
+    this->worker->moveToThread(thread);
+    this->worker->setTitles(titles);
+    connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
+    connect(this->worker, SIGNAL (songChanged(QString)), this, SIGNAL (songChanged(QString)));
+    connect(this, SIGNAL (randomSongsFinished()), thread, SLOT (quit()));
+    connect(this, SIGNAL (randomSongsFinished()), worker, SLOT (stop()));
+    connect(this, SIGNAL (randomSongsFinished()), worker, SLOT (deleteLater()));
+    connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
+    thread->start();
+}
+
+void Engine::stopRandomSongs() {
+    emit randomSongsFinished();
+}
+
+QStringList Engine::getSongTitles() {
+    QStringList titles;
     QSqlQuery query(*m_db);
     if (!query.exec("SELECT title FROM songs")) {
         qDebug() << "error retrieving song titles";
-        return;
+        return titles;
     }
-    QStringList titles;
     int i = 0;
     while (query.next()) {
         titles.append(query.value(i).toString());
     }
-    this->runner->setRunning(true);
-    std::thread titleProvider(&Runner::provideTitle, this->runner, titles);
+    return titles;
 }
 
 void Engine::listSongs() {
