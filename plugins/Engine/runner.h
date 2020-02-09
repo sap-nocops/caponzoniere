@@ -17,6 +17,8 @@
 #ifndef RUNNER_H
 #define RUNNER_H
 
+ #include <QStringList> 
+
 class Runner {
 
 public:
