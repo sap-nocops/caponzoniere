@@ -19,10 +19,8 @@
 #include <QFile>
 #include <QtSql>
 
-static int getCountResult(void *data, int argc, char **argv, char **azColName){
-   qDebug() << "Count: " << argv[0];
-   return 0;
-}
+#include <chrono>
+#include <thread>
 
 Engine::Engine() : m_db(new QSqlDatabase()) {
     *m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -33,6 +31,7 @@ Engine::Engine() : m_db(new QSqlDatabase()) {
     }
     qDebug() << "connected";
     initDb();
+    this->runner = new Runner();
 }
 
 Engine::~Engine() {
@@ -45,7 +44,7 @@ void Engine::initDb() {
         return;
     }
 
-    QFile file("initDb.sql");
+    QFile file("assets/initDb.sql");
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Could not open file: " << file.fileName();
         return;
@@ -64,7 +63,6 @@ void Engine::initDb() {
             continue;
         }
 
-        //QSqlQuery query(*m_db);
         if (!query.exec(statement)) {
             qDebug() << "Error executing database file: " << file.fileName();
             qDebug() << query.lastError().text();
@@ -75,12 +73,17 @@ void Engine::initDb() {
 
 void Engine::playRandomSongs() {
     QSqlQuery query(*m_db);
-    if (!query.exec("SELECT COUNT(*) FROM songs")) {
-        qDebug() << "nullaaaaa";
+    if (!query.exec("SELECT title FROM songs")) {
+        qDebug() << "error retrieving song titles";
+        return;
     }
-    if (query.next()) {
-        qDebug() << query.value(0).toString();
+    QStringList titles;
+    int i = 0;
+    while (query.next()) {
+        titles.append(query.value(i).toString());
     }
+    this->runner->setRunning(true);
+    std::thread titleProvider(&Runner::provideTitle, this->runner, titles);
 }
 
 void Engine::listSongs() {

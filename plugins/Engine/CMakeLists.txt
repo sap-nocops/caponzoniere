@@ -8,6 +8,7 @@ set(
     SRC
     plugin.cpp
     engine.cpp
+    runner.cpp
 )
 
 set(CMAKE_AUTOMOC ON) 

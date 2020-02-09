@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-11 18:09+0000\n"
+"POT-Creation-Date: 2020-02-09 01:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Main.qml:39 caponzoniere.desktop.in.h:1
+#: ../qml/Menu.qml:12 caponzoniere.desktop.in.h:1
 msgid "Caponzoniere"
 msgstr ""
 
-#: ../qml/Main.qml:59
-msgid "Press the button below and check the logs!"
+#: ../qml/Menu.qml:27
+msgid "Random Corridos"
 msgstr ""
 
-#: ../qml/Main.qml:64
-msgid "Press here!"
+#: ../qml/RandomSongsPage.qml:31
+msgid "Random Songs"
 msgstr ""

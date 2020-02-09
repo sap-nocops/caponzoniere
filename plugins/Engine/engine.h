@@ -19,9 +19,13 @@
 
 #include <QObject>
 #include <QtSql/QSqlQuery>
+#include "runner.h"
 
 class Engine: public QObject {
     Q_OBJECT
+
+signals:
+	void songChanged(QString title);
 
 public:
     Engine();
@@ -33,6 +37,7 @@ public:
 
 private:
 	QSqlDatabase *m_db;
+	Runner *runner;
 
 	void initDb();
 };
