@@ -43,7 +43,8 @@ Page {
         Text {
             id: songTitle
             Layout.alignment: Qt.AlignHCenter
-            font.pixelSize: units.gu(7)
+            font.pixelSize: units.gu(8)
+            color:  Theme.palette.normal.foregroundText
         }
     }
 
