@@ -27,9 +27,9 @@ public:
     Worker();
     ~Worker();
     void setTitles(QStringList titles);
+    void stop();
 public slots:
     void process();
-    void stop();
 signals:
     void songChanged(QString title);
 private:

@@ -8,7 +8,7 @@ Page {
     anchors.fill: parent
 
     header: PageHeader {
-        id: header
+        id: menuHeader
         title: i18n.tr('Caponzoniere')
     }
 
@@ -16,7 +16,7 @@ Page {
         spacing: units.gu(2)
         anchors {
             margins: units.gu(2)
-            top: header.bottom
+            top: menuHeader.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom

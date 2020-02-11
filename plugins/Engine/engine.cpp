@@ -19,17 +19,21 @@
 #include <QFile>
 #include <QtSql>
 #include <QThread>
+#include <QStandardPaths>
 
 Engine::Engine() : m_db(new QSqlDatabase()) {
+    QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
+    if (!this->createDbFolderIfNotExists(dbPath)) {
+        return;
+    }
     *m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db->setDatabaseName("caponzoniere.db");
+    m_db->setDatabaseName(dbPath + "/caponzoniere_db.sqlite");
     if (!m_db->open()) {
         qDebug() << "failed to connect to db";
         return;
     }
     qDebug() << "connected";
     initDb();
-    this->worker = new Worker();
 }
 
 Engine::~Engine() {
@@ -75,19 +79,20 @@ void Engine::playRandomSongs() {
         return;
     }
     QThread* thread = new QThread;
+    this->worker = new Worker();
     this->worker->moveToThread(thread);
     this->worker->setTitles(titles);
     connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
     connect(this->worker, SIGNAL (songChanged(QString)), this, SIGNAL (songChanged(QString)));
     connect(this, SIGNAL (randomSongsFinished()), thread, SLOT (quit()));
-    connect(this, SIGNAL (randomSongsFinished()), worker, SLOT (stop()));
     connect(this, SIGNAL (randomSongsFinished()), worker, SLOT (deleteLater()));
     connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
     thread->start();
 }
 
 void Engine::stopRandomSongs() {
-    emit randomSongsFinished();
+    this->worker->stop();
+    Q_EMIT randomSongsFinished();
 }
 
 QStringList Engine::getSongTitles() {
@@ -110,4 +115,16 @@ void Engine::listSongs() {
 
 void Engine::getSongLyrics() {
 
+}
+
+bool Engine::createDbFolderIfNotExists(QString dbPath) {
+    if (!QFile::exists(dbPath)) {
+        QDir dir;
+        bool createOk = dir.mkpath(dbPath);
+        if (!createOk) {
+            qWarning() << "Unable to create DB directory" << dbPath;
+            return false;
+        }
+    }
+    return true;
 }

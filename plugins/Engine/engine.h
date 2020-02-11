@@ -34,6 +34,7 @@ public:
     ~Engine();
 
     Q_INVOKABLE void playRandomSongs();
+    Q_INVOKABLE void stopRandomSongs();
     Q_INVOKABLE void listSongs();
     Q_INVOKABLE void getSongLyrics();
 
@@ -43,7 +44,7 @@ private:
 
 	void initDb();
     QStringList getSongTitles();
-    void stopRandomSongs();
+    bool createDbFolderIfNotExists(QString dbPath);
 };
 
 #endif

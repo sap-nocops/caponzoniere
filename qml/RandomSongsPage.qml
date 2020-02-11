@@ -54,14 +54,11 @@ Page {
         }
     }
 
-    Connections {
-        target: pageStack
-        onBackward: {
-            Engine.stopRandomSongs()
-        }
-    }
-
     Component.onCompleted: {
         Engine.playRandomSongs()
+    }
+
+    Component.onDestruction: {
+        Engine.stopRandomSongs()
     }
 }

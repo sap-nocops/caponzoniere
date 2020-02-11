@@ -29,11 +29,12 @@ Worker::~Worker() {
 
 void Worker::process() {
 	for (int i = 10;i >0 && this->running;i--) {
-		emit songChanged(QString::number(i));
+		Q_EMIT songChanged(QString::number(i));
+        qDebug() << "count down emitted";
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
     while (this->running) {
-        emit songChanged(this->getNextTitle());
+        Q_EMIT songChanged(this->getNextTitle());
         std::this_thread::sleep_for(std::chrono::seconds(7));
         qDebug() << "song change emitted";
     }
@@ -41,7 +42,7 @@ void Worker::process() {
 
 void Worker::stop() {
     qDebug() << "STOPPED";
-    this->running = running;
+    this->running = false;
 }
 
 QString Worker::getNextTitle() {
