@@ -26,15 +26,15 @@ class Engine: public QObject {
     Q_OBJECT
 
 signals:
-	void songChanged(QString title);
-	void randomSongsFinished();
+	void randomTextChanged(QString randomText);
+	void randomTextsFinished();
 
 public:
     Engine();
     ~Engine();
 
-    Q_INVOKABLE void playRandomSongs();
-    Q_INVOKABLE void stopRandomSongs();
+    Q_INVOKABLE void playRandomTexts(QString textType);
+    Q_INVOKABLE void stopRandomTexts();
     Q_INVOKABLE void listSongs();
     Q_INVOKABLE void getSongLyrics();
 

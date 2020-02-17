@@ -26,16 +26,16 @@ class Worker : public QObject {
 public:
     Worker();
     ~Worker();
-    void setTitles(QStringList titles);
+    void setTexts(QStringList titles);
     void stop();
 public slots:
     void process();
 signals:
-    void songChanged(QString title);
+    void randomTextChanged(QString randomText);
 private:
     bool running;
-    QStringList titles;
-    QString getNextTitle();
+    QStringList texts;
+    QString getNextText();
 };
 
 #endif

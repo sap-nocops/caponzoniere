@@ -73,26 +73,31 @@ void Engine::initDb() {
     }
 }
 
-void Engine::playRandomSongs() {
-    QStringList titles = getSongTitles();
-    if (titles.isEmpty()) {
+void Engine::playRandomTexts(QString textType) {
+    QStringList texts;
+    if (textType == "songs") {
+        texts = getSongTitles();
+    } else {
+        //TODO get topics
+    }
+    if (texts.isEmpty()) {
         return;
     }
     QThread* thread = new QThread;
     this->worker = new Worker();
     this->worker->moveToThread(thread);
-    this->worker->setTitles(titles);
+    this->worker->setTexts(texts);
     connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
-    connect(this->worker, SIGNAL (songChanged(QString)), this, SIGNAL (songChanged(QString)));
-    connect(this, SIGNAL (randomSongsFinished()), thread, SLOT (quit()));
-    connect(this, SIGNAL (randomSongsFinished()), worker, SLOT (deleteLater()));
+    connect(this->worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
+    connect(this, SIGNAL (randomTextsFinished()), thread, SLOT (quit()));
+    connect(this, SIGNAL (randomTextsFinished()), worker, SLOT (deleteLater()));
     connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
     thread->start();
 }
 
-void Engine::stopRandomSongs() {
+void Engine::stopRandomTexts() {
     this->worker->stop();
-    Q_EMIT randomSongsFinished();
+    Q_EMIT randomTextsFinished();
 }
 
 QStringList Engine::getSongTitles() {

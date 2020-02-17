@@ -24,8 +24,14 @@ Page {
 
         Button {
             Layout.alignment: Qt.AlignHCenter
-            text: i18n.tr('Random Corridos')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomSongsPage.qml"), {})
+            text: i18n.tr('Random Songs')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: i18n.tr('Random Songs'), textType: "songs"})
+        }
+
+        Button {
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n.tr('Random Topics')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: i18n.tr('Random Topics'), textType: "topics"})
         }
     }
 }

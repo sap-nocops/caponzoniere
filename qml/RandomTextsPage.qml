@@ -23,11 +23,14 @@ import Qt.labs.settings 1.0
 import Engine 1.0
 
 Page {
+    id: randomTextPage
     anchors.fill: parent
-
+    property string pageTitle
+    property string textType
+    
     header: PageHeader {
         id: header
-        title: i18n.tr('Random Songs')
+        title: randomTextPage.pageTitle
     }
 
     ColumnLayout {
@@ -41,7 +44,7 @@ Page {
         }
 
         Text {
-            id: songTitle
+            id: randomTextDisplay
             Layout.alignment: Qt.AlignHCenter
             font.pixelSize: units.gu(8)
             color:  Theme.palette.normal.foregroundText
@@ -50,16 +53,16 @@ Page {
 
     Connections {
         target: Engine
-        onSongChanged: {
-            songTitle.text = title
+        onRandomTextChanged: {
+            randomTextDisplay.text = randomText
         }
     }
 
     Component.onCompleted: {
-        Engine.playRandomSongs()
+        Engine.playRandomTexts(textType)
     }
 
     Component.onDestruction: {
-        Engine.stopRandomSongs()
+        Engine.stopRandomTexts()
     }
 }
