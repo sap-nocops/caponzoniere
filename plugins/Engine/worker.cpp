@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "worker.h"
+#include "temporary_text.cpp"
 
 #include <QDebug>
 
@@ -34,8 +35,9 @@ void Worker::process() {
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
     while (this->running) {
-        Q_EMIT randomTextChanged(this->getNextText());
-        std::this_thread::sleep_for(std::chrono::seconds(7));
+        TemporaryText tt = this->strategy->nextText();
+        Q_EMIT randomTextChanged(tt.getText());
+        std::this_thread::sleep_for(std::chrono::seconds(tt.getDuration()));
         qDebug() << "text change emitted";
     }
 }
@@ -45,12 +47,6 @@ void Worker::stop() {
     this->running = false;
 }
 
-QString Worker::getNextText() {
-    return this->texts.at(rand() % this->texts.size());
-}
-
-void Worker::setTexts
-
-(QStringList texts) {
-    this->texts = texts;
+void Worker::setStrategy(RandomTextStrategy* strategy) {
+    this->strategy = strategy;
 }

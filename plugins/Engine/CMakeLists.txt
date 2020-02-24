@@ -9,6 +9,8 @@ set(
     plugin.cpp
     engine.cpp
     worker.cpp
+    random_song_strategy.cpp
+    temporary_text.cpp
 )
 
 set(CMAKE_AUTOMOC ON) 

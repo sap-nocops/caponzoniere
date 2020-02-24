@@ -22,6 +22,7 @@
 #include <QStandardPaths>
 
 Engine::Engine() : m_db(new QSqlDatabase()) {
+    //TODO move this logic in a dedicated class    
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
     if (!this->createDbFolderIfNotExists(dbPath)) {
         return;
@@ -74,19 +75,15 @@ void Engine::initDb() {
 }
 
 void Engine::playRandomTexts(QString textType) {
-    QStringList texts;
-    if (textType == "songs") {
-        texts = getSongTitles();
-    } else {
-        //TODO get topics
-    }
-    if (texts.isEmpty()) {
-        return;
-    }
+    //TODO check for memory leaks
     QThread* thread = new QThread;
     this->worker = new Worker();
     this->worker->moveToThread(thread);
-    this->worker->setTexts(texts);
+    if (textType == "songs") {
+        this->worker->setStrategy(new RandomSongStrategy());
+    } else {
+        //TODO random topic strategy
+    }
     connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
     connect(this->worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
     connect(this, SIGNAL (randomTextsFinished()), thread, SLOT (quit()));
@@ -100,18 +97,18 @@ void Engine::stopRandomTexts() {
     Q_EMIT randomTextsFinished();
 }
 
-QStringList Engine::getSongTitles() {
-    QStringList titles;
+QStringList Engine::getTopics() {
+    QStringList topics;
     QSqlQuery query(*m_db);
-    if (!query.exec("SELECT title FROM songs")) {
-        qDebug() << "error retrieving song titles";
-        return titles;
+    if (!query.exec("SELECT name FROM topics")) {
+        qDebug() << "error retrieving topics";
+        return topics;
     }
     int i = 0;
     while (query.next()) {
-        titles.append(query.value(i).toString());
+        topics.append(query.value(i).toString());
     }
-    return titles;
+    return topics;
 }
 
 void Engine::listSongs() {

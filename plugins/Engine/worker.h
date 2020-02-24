@@ -17,16 +17,16 @@
 #ifndef WORKER_H
 #define WORKER_H
 
-
 #include <QObject>
-#include <QStringList> 
+#include <QStringList>
+#include "random_text_strategy.h"
 
 class Worker : public QObject {
     Q_OBJECT
 public:
     Worker();
     ~Worker();
-    void setTexts(QStringList titles);
+    void setStrategy(RandomTextStrategy* strategy);
     void stop();
 public slots:
     void process();
@@ -34,8 +34,7 @@ signals:
     void randomTextChanged(QString randomText);
 private:
     bool running;
-    QStringList texts;
-    QString getNextText();
+    RandomTextStrategy* strategy;
 };
 
 #endif

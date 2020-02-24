@@ -13,39 +13,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef TEMPORARY_TEXT
+#define TEMPORARY_TEXT
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#include <QString>
 
-#include <QObject>
-#include <QtSql/QSqlQuery>
+class TemporaryText {
+	private:
+		QString text;
+		long duration;
+	public:
+		TemporaryText(QString t, long d) {
+			text = t;
+			duration = d;
+		}
 
-#include "worker.h"
+		QString getText() {
+			return text;
+		}
 
-class Engine: public QObject {
-    Q_OBJECT
-
-signals:
-	void randomTextChanged(QString randomText);
-	void randomTextsFinished();
-
-public:
-    Engine();
-    ~Engine();
-
-    Q_INVOKABLE void playRandomTexts(QString textType);
-    Q_INVOKABLE void stopRandomTexts();
-    Q_INVOKABLE void listSongs();
-    Q_INVOKABLE void getSongLyrics();
-
-private:
-	QSqlDatabase *m_db;
-	Worker *worker;
-
-	void initDb();
-    QStringList getSongTitles();
-    QStringList getTopics();    
-    bool createDbFolderIfNotExists(QString dbPath);
+		long getDuration() {
+			return duration;
+		}
 };
 
 #endif
