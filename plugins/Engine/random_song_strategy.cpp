@@ -13,13 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef RANDOM_SONG_STRATEGY
+#define RANDOM_SONG_STRATEGY
+
 #include "random_text_strategy.h"
+#include "random_generator.cpp"
 
 #include <QDebug>
 #include <QtSql/QSqlQuery>
 #include <QStandardPaths>
-//TODO QRandomGenerator available since 5.10 :(
-#include <QRandomGenerator>
+#include <QList>
 
 class RandomSongStrategy: public RandomTextStrategy {
     private:
@@ -30,25 +33,23 @@ class RandomSongStrategy: public RandomTextStrategy {
             if (!query.exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
                 qDebug() << "error retrieving song titles";
             }
-            QRandomGenerator randGen = QRandomGenerator::securelySeeded();
-            TemporaryText* tmp[query.length];
-            int i = 0;
+            RandomGenerator randGen;
+            QList<TemporaryText*> tmp;
             while (query.next()) {
-                TemporaryText tt = new TemporaryText(
+                TemporaryText* tt = new TemporaryText(
                     query.value(0).toString(),
-                    query.value(1).toInt() + randGen->bounded(-5, 10)
+                    query.value(1).toInt() + randGen.bounded(-5, 10)
                 );
-                tmp[i] = tt;
-                i++;
+                tmp.append(tt);
             }
-            i = 0;
+            int i = 0;
             int random;
-            while (i != tmp.length) {
+            while (i != tmp.length()) {
                 //Think better this is could terminate in a very long time
                 do {
-                    random = randGen->bounded(tmp.length);
+                    random = randGen.bounded(tmp.length());
                 } while(!tmp[random]);
-                this->stack.push(tmp[random]);
+                this->stack.push(tmp.at(random));
                 i++;
                 tmp[random] = 0;
             }
@@ -71,11 +72,12 @@ class RandomSongStrategy: public RandomTextStrategy {
             this->m_db->close();
         }
         
-        TemporaryText nextText() {
+        TemporaryText* nextText() {
             if (this->stack.isEmpty()) {
                 initSongsStack();
             }
             return this->stack.pop();
         }
-}
+};
 
+#endif

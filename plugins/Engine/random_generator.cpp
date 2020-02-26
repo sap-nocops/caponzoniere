@@ -13,23 +13,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef RANDOM_GENERATOR
+#define RANDOM_GENERATOR
 
-#ifndef RANDOM_TEXT_STRATEGY_H
-#define RANDOM_TEXT_STRATEGY_H
+#include <ctime> 
+#include <cstdlib>
 
-#include "temporary_text.cpp"
+class RandomGenerator {
+	public:
+		int bounded(int min, int max) {
+		    srand((unsigned) time(0));
+		    int range = (max - min) + 1;
+		    return min + int(range * rand() / (RAND_MAX + 1.0));
+		}
 
-#include <QObject>
-#include <QStack>
-
-class RandomTextStrategy : public QObject {
-    Q_OBJECT
-    public:
-    	RandomTextStrategy();
-    	~RandomTextStrategy();
-        TemporaryText* nextText();
-    protected:
-        QStack<TemporaryText*> stack;
+		int bounded(int max) {
+		    return bounded(0, max);
+		}
 };
 
 #endif

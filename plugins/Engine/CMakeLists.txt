@@ -1,7 +1,6 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(PLUGIN "Engine")
 
-
 find_package(Qt5Sql REQUIRED)
 
 set(
@@ -9,8 +8,10 @@ set(
     plugin.cpp
     engine.cpp
     worker.cpp
+    random_text_strategy.h
     random_song_strategy.cpp
     temporary_text.cpp
+    random_generator.cpp
 )
 
 set(CMAKE_AUTOMOC ON) 

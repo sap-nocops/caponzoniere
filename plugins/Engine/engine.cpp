@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "engine.h"
+#include "random_song_strategy.cpp"
 
 #include <QDebug>
 #include <QFile>

@@ -35,9 +35,9 @@ void Worker::process() {
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
     while (this->running) {
-        TemporaryText tt = this->strategy->nextText();
-        Q_EMIT randomTextChanged(tt.getText());
-        std::this_thread::sleep_for(std::chrono::seconds(tt.getDuration()));
+        TemporaryText* tt = this->strategy->nextText();
+        Q_EMIT randomTextChanged(tt->getText());
+        std::this_thread::sleep_for(std::chrono::seconds(tt->getDuration()));
         qDebug() << "text change emitted";
     }
 }
