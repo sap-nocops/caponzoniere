@@ -14,20 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RANDOM_TEXT_STRATEGY_H
-#define RANDOM_TEXT_STRATEGY_H
+#ifndef RANDOM_TEXT_STRATEGY
+#define RANDOM_TEXT_STRATEGY
 
 #include "temporary_text.cpp"
 
-#include <QObject>
 #include <QStack>
 
-class RandomTextStrategy : public QObject {
-    Q_OBJECT
+class RandomTextStrategy {
     public:
-    	RandomTextStrategy();
-    	~RandomTextStrategy();
-        TemporaryText* nextText();
+    	virtual ~RandomTextStrategy() {};
+        virtual TemporaryText* nextText() {};
     protected:
         QStack<TemporaryText*> stack;
 };

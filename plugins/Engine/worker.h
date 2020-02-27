@@ -19,7 +19,7 @@
 
 #include <QObject>
 #include <QStringList>
-#include "random_text_strategy.h"
+#include "random_text_strategy.cpp"
 
 class Worker : public QObject {
     Q_OBJECT

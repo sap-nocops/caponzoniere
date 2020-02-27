@@ -45,12 +45,14 @@ void Engine::initDb() {
     QSqlQuery query(*m_db);
     if (query.exec("SELECT COUNT(*) FROM songs")) {
         qDebug() << "database already initialized";
+        this->m_db->close();
         return;
     }
 
     QFile file("assets/initDb.sql");
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Could not open file: " << file.fileName();
+        this->m_db->close();
         return;
     }
 
@@ -73,6 +75,7 @@ void Engine::initDb() {
             qDebug() << "SQLite string: " << query.lastQuery();
         }
     }
+    this->m_db->close();
 }
 
 void Engine::playRandomTexts(QString textType) {

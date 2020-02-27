@@ -16,7 +16,7 @@
 #ifndef RANDOM_SONG_STRATEGY
 #define RANDOM_SONG_STRATEGY
 
-#include "random_text_strategy.h"
+#include "random_text_strategy.cpp"
 #include "random_generator.cpp"
 
 #include <QDebug>
@@ -56,10 +56,11 @@ class RandomSongStrategy: public RandomTextStrategy {
         }
     
     public:
-        RandomSongStrategy() {
-            this->m_db = new QSqlDatabase();
+        RandomSongStrategy() : m_db(new QSqlDatabase()) {
+            qDebug() << "RandomSongStrategy constructor";
             QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
             *m_db = QSqlDatabase::addDatabase("QSQLITE");
+            qDebug() << dbPath;
             m_db->setDatabaseName(dbPath + "/caponzoniere_db.sqlite");
             if (!m_db->open()) {
                 qDebug() << "failed to connect to db";

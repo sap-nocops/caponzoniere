@@ -8,7 +8,7 @@ set(
     plugin.cpp
     engine.cpp
     worker.cpp
-    random_text_strategy.h
+    random_text_strategy.cpp
     random_song_strategy.cpp
     temporary_text.cpp
     random_generator.cpp
