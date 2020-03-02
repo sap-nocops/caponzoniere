@@ -6,6 +6,7 @@ find_package(Qt5Sql REQUIRED)
 set(
     SRC
     plugin.cpp
+    db_initializer.cpp
     engine.cpp
     worker.cpp
     random_text_strategy.cpp

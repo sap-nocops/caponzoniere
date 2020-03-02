@@ -14,36 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef DB_INITIALIZER_H
+#define _INITIALIZER_H
 
-#include <QObject>
+#include <QString>
 
-#include "db_initializer.h"
-#include "worker.h"
-
-class Engine: public QObject {
-    Q_OBJECT
-
-signals:
-	void randomTextChanged(QString randomText);
-	void randomTextsFinished();
-
-public:
-    Engine();
-    ~Engine();
-
-    Q_INVOKABLE void playRandomTexts(QString textType);
-    Q_INVOKABLE void stopRandomTexts();
-    Q_INVOKABLE void listSongs();
-    Q_INVOKABLE void getSongLyrics();
-
-private:
-	Worker *worker;
-    DbInitializer *dbInitializer; 
-
-    QStringList getTopics();    
-    bool createDbFolderIfNotExists(QString dbPath);
+class DbInitializer {
+	public:
+	    void initDb();
+	private:
+		bool createDbFolderIfNotExists(QString dbPath);
 };
 
 #endif

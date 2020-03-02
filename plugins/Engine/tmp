@@ -1,0 +1,13 @@
+QStringList Engine::getTopics() {
+    QStringList topics;
+    QSqlQuery query(*m_db);
+    if (!query.exec("SELECT name FROM topics")) {
+        qDebug() << "error retrieving topics";
+        return topics;
+    }
+    int i = 0;
+    while (query.next()) {
+        topics.append(query.value(i).toString());
+    }
+    return topics;
+}

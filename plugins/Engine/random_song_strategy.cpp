@@ -26,12 +26,20 @@
 
 class RandomSongStrategy: public RandomTextStrategy {
     private:
-        QSqlDatabase *m_db;
-
         void initSongsStack() {
+            QSqlDatabase *m_db = new QSqlDatabase();
+            QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
+            *m_db = QSqlDatabase::addDatabase("QSQLITE");
+            m_db->setDatabaseName(dbPath + "/caponzoniere_db.sqlite");
+            if (!m_db->open()) {
+                qDebug() << "strategy failed to connect to db";
+                return;
+            }
             QSqlQuery query(*m_db);
             if (!query.exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
                 qDebug() << "error retrieving song titles";
+                m_db->close();
+                return;
             }
             RandomGenerator randGen;
             QList<TemporaryText*> tmp;
@@ -45,7 +53,7 @@ class RandomSongStrategy: public RandomTextStrategy {
             int i = 0;
             int random;
             while (i != tmp.length()) {
-                //Think better this is could terminate in a very long time
+                //Think this better, it could terminate in a very long time
                 do {
                     random = randGen.bounded(tmp.length());
                 } while(!tmp[random]);
@@ -53,24 +61,16 @@ class RandomSongStrategy: public RandomTextStrategy {
                 i++;
                 tmp[random] = 0;
             }
+            m_db->close();
+            QSqlDatabase::removeDatabase(m_db->connectionName());
         }
     
     public:
-        RandomSongStrategy() : m_db(new QSqlDatabase()) {
-            qDebug() << "RandomSongStrategy constructor";
-            QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
-            *m_db = QSqlDatabase::addDatabase("QSQLITE");
-            qDebug() << dbPath;
-            m_db->setDatabaseName(dbPath + "/caponzoniere_db.sqlite");
-            if (!m_db->open()) {
-                qDebug() << "failed to connect to db";
-                return;
-            }
+        RandomSongStrategy() {
             initSongsStack();
         }
 
         ~RandomSongStrategy() {
-            this->m_db->close();
         }
         
         TemporaryText* nextText() {
