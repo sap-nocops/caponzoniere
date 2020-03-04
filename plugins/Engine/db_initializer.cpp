@@ -36,16 +36,16 @@ void DbInitializer::initDb() {
     QSqlQuery query(*m_db);
     if (query.exec("SELECT COUNT(*) FROM songs")) {
         qDebug() << "database already initialized";
-        m_db->close();
-        QSqlDatabase::removeDatabase(m_db->connectionName());
+        //m_db->close();
+        //QSqlDatabase::removeDatabase(m_db->connectionName());
         return;
     }
 
     QFile file("assets/initDb.sql");
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Could not open file: " << file.fileName();
-        m_db->close();
-        QSqlDatabase::removeDatabase(m_db->connectionName());
+        //m_db->close();
+        //QSqlDatabase::removeDatabase(m_db->connectionName());
         return;
     }
 
@@ -68,8 +68,8 @@ void DbInitializer::initDb() {
             qDebug() << "SQLite string: " << query.lastQuery();
         }
     }
-    m_db->close();
-    QSqlDatabase::removeDatabase(m_db->connectionName());
+    //m_db->close();
+    //QSqlDatabase::removeDatabase(m_db->connectionName());
 }
 
 bool DbInitializer::createDbFolderIfNotExists(QString dbPath) {

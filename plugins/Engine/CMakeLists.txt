@@ -11,6 +11,7 @@ set(
     worker.cpp
     random_text_strategy.cpp
     random_song_strategy.cpp
+    random_topic_strategy.cpp
     temporary_text.cpp
     random_generator.cpp
 )

@@ -13,8 +13,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef RANDOM_SONG_STRATEGY
-#define RANDOM_SONG_STRATEGY
+#ifndef RANDOM_TOPIC_STRATEGY
+#define RANDOM_TOPIC_STRATEGY
 
 #include "random_text_strategy.cpp"
 #include "random_generator.cpp"
@@ -23,13 +23,13 @@
 #include <QtSql/QSqlQuery>
 #include <QList>
 
-class RandomSongStrategy: public RandomTextStrategy {
+class RandomTopicStrategy: public RandomTextStrategy {
     private:
-        void initSongsStack() {
+        void initTopicsStack() {
             QSqlDatabase m_db = QSqlDatabase::database();
             QSqlQuery query(m_db);
-            if (!query.exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
-                qDebug() << "error retrieving song titles";
+            if (!query.exec("SELECT name FROM topics")) {
+                qDebug() << "error retrieving topics";
                 return;
             }
             RandomGenerator randGen;
@@ -37,10 +37,11 @@ class RandomSongStrategy: public RandomTextStrategy {
             while (query.next()) {
                 TemporaryText* tt = new TemporaryText(
                     query.value(0).toString(),
-                    query.value(1).toInt() + randGen.bounded(-5, 10)
+                    randGen.bounded(75, 100)
                 );
                 tmp.append(tt);
             }
+            qDebug() << "YESSSS";
             int random;
             for (int i = 0;i < tmp.length();i++) {
                 do {
@@ -54,18 +55,19 @@ class RandomSongStrategy: public RandomTextStrategy {
         }
     
     public:
-        RandomSongStrategy() {
-            initSongsStack();
+        RandomTopicStrategy() {
+            initTopicsStack();
         }
 
-        ~RandomSongStrategy() {
+        ~RandomTopicStrategy() {
         }
         
         TemporaryText* nextText() {
             if (this->stack.isEmpty()) {
-                initSongsStack();
+                initTopicsStack();
             }
             TemporaryText* toRet = this->stack.pop();
+            qDebug() << "juice";
             return toRet;
         }
 };

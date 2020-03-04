@@ -15,6 +15,7 @@
  */
 #include "engine.h"
 #include "random_song_strategy.cpp"
+#include "random_topic_strategy.cpp"
 
 #include <QDebug>
 #include <QThread>
@@ -34,7 +35,7 @@ void Engine::playRandomTexts(QString textType) {
     if (textType == "songs") {
         this->worker->setStrategy(new RandomSongStrategy());
     } else {
-        //TODO random topic strategy
+        this->worker->setStrategy(new RandomTopicStrategy());
     }
     connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
     connect(this->worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
