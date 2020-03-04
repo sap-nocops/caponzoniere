@@ -18,15 +18,42 @@
 #define RANDOM_TEXT_STRATEGY
 
 #include "temporary_text.cpp"
+#include "random_generator.cpp"
 
 #include <QStack>
+#include <QtSql/QSqlQuery>
 
 class RandomTextStrategy {
     public:
-    	virtual ~RandomTextStrategy() {};
-        virtual TemporaryText* nextText() {};
+        virtual TemporaryText* nextText() {
+            if (this->stack.isEmpty()) {
+                initStack();
+            }
+            return this->stack.pop();
+        };
     protected:
         QStack<TemporaryText*> stack;
+        virtual QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) = 0;
+    	virtual void initStack() {
+            QSqlDatabase m_db = QSqlDatabase::database();
+            QSqlQuery query(m_db);
+            QList<TemporaryText*> tmp = shuffleList(getTemporaryTexts(query));
+            for (int i = 0;i < tmp.length();i++) {
+                this->stack.push(tmp.at(i));
+            }
+        }
+    private:
+        virtual QList<TemporaryText*> shuffleList(QList<TemporaryText*> tmp) {
+            RandomGenerator randGen;
+            int random;
+            for (int i = 0;i < tmp.length();i++) {
+                do {
+                    random = randGen.bounded(tmp.length());
+                } while(random == i);
+                tmp.move(i, random);
+            }
+            return tmp;
+        }
 };
 
 #endif

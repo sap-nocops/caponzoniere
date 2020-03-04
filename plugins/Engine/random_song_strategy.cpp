@@ -17,23 +17,22 @@
 #define RANDOM_SONG_STRATEGY
 
 #include "random_text_strategy.cpp"
-#include "random_generator.cpp"
 
 #include <QDebug>
-#include <QtSql/QSqlQuery>
-#include <QList>
 
-class RandomSongStrategy: public RandomTextStrategy {
-    private:
-        void initSongsStack() {
-            QSqlDatabase m_db = QSqlDatabase::database();
-            QSqlQuery query(m_db);
+class RandomSongStrategy: public RandomTextStrategy {    
+    public:
+        RandomSongStrategy() {
+            initStack();
+        }
+    protected:
+        QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) {
+            QList<TemporaryText*> tmp;
             if (!query.exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
                 qDebug() << "error retrieving song titles";
-                return;
+                return tmp;
             }
             RandomGenerator randGen;
-            QList<TemporaryText*> tmp;
             while (query.next()) {
                 TemporaryText* tt = new TemporaryText(
                     query.value(0).toString(),
@@ -41,32 +40,7 @@ class RandomSongStrategy: public RandomTextStrategy {
                 );
                 tmp.append(tt);
             }
-            int random;
-            for (int i = 0;i < tmp.length();i++) {
-                do {
-                    random = randGen.bounded(tmp.length());
-                } while(random == i);
-                tmp.move(i, random);
-            }
-            for (int i = 0;i < tmp.length();i++) {
-                this->stack.push(tmp.at(i));
-            }
-        }
-    
-    public:
-        RandomSongStrategy() {
-            initSongsStack();
-        }
-
-        ~RandomSongStrategy() {
-        }
-        
-        TemporaryText* nextText() {
-            if (this->stack.isEmpty()) {
-                initSongsStack();
-            }
-            TemporaryText* toRet = this->stack.pop();
-            return toRet;
+            return tmp;
         }
 };
 

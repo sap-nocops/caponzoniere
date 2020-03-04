@@ -17,23 +17,18 @@
 #define RANDOM_TOPIC_STRATEGY
 
 #include "random_text_strategy.cpp"
-#include "random_generator.cpp"
 
 #include <QDebug>
-#include <QtSql/QSqlQuery>
-#include <QList>
 
 class RandomTopicStrategy: public RandomTextStrategy {
-    private:
-        void initTopicsStack() {
-            QSqlDatabase m_db = QSqlDatabase::database();
-            QSqlQuery query(m_db);
+    protected:
+        QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) {
+            QList<TemporaryText*> tmp;
             if (!query.exec("SELECT name FROM topics")) {
                 qDebug() << "error retrieving topics";
-                return;
+                return tmp;
             }
             RandomGenerator randGen;
-            QList<TemporaryText*> tmp;
             while (query.next()) {
                 TemporaryText* tt = new TemporaryText(
                     query.value(0).toString(),
@@ -41,34 +36,13 @@ class RandomTopicStrategy: public RandomTextStrategy {
                 );
                 tmp.append(tt);
             }
-            qDebug() << "YESSSS";
-            int random;
-            for (int i = 0;i < tmp.length();i++) {
-                do {
-                    random = randGen.bounded(tmp.length());
-                } while(random == i);
-                tmp.move(i, random);
-            }
-            for (int i = 0;i < tmp.length();i++) {
-                this->stack.push(tmp.at(i));
-            }
+            return tmp;
         }
+        
     
     public:
         RandomTopicStrategy() {
-            initTopicsStack();
-        }
-
-        ~RandomTopicStrategy() {
-        }
-        
-        TemporaryText* nextText() {
-            if (this->stack.isEmpty()) {
-                initTopicsStack();
-            }
-            TemporaryText* toRet = this->stack.pop();
-            qDebug() << "juice";
-            return toRet;
+            initStack();
         }
 };
 
