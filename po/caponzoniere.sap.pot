@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-04 23:50+0000\n"
+"POT-Creation-Date: 2020-03-08 00:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,10 +21,10 @@ msgstr ""
 msgid "Caponzoniere"
 msgstr ""
 
-#: ../qml/Menu.qml:27 ../qml/Menu.qml:28
+#: ../qml/Menu.qml:37 ../qml/Menu.qml:38
 msgid "Random Songs"
 msgstr ""
 
-#: ../qml/Menu.qml:33 ../qml/Menu.qml:34
+#: ../qml/Menu.qml:44 ../qml/Menu.qml:45
 msgid "Random Topics"
 msgstr ""

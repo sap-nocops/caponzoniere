@@ -18,20 +18,18 @@
 
 #include "random_text_strategy.cpp"
 
-#include <QDebug>
-
 class RandomTopicStrategy: public RandomTextStrategy {
     protected:
-        QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) {
+        QList<TemporaryText*> getTemporaryTexts(QSqlQuery* query) {
             QList<TemporaryText*> tmp;
-            if (!query.exec("SELECT name FROM topics")) {
+            if (!query->exec("SELECT name FROM topics")) {
                 qDebug() << "error retrieving topics";
                 return tmp;
             }
             RandomGenerator randGen;
-            while (query.next()) {
+            while (query->next()) {
                 TemporaryText* tt = new TemporaryText(
-                    query.value(0).toString(),
+                    query->value(0).toString(),
                     randGen.bounded(75, 100)
                 );
                 tmp.append(tt);

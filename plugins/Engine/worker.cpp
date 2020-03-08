@@ -26,6 +26,8 @@ Worker::Worker() {
 }
 
 Worker::~Worker() {
+    qDebug() << "destroying worker";
+    delete this->strategy;
 }
 
 void Worker::process() {

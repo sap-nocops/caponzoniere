@@ -18,29 +18,27 @@
 
 #include "random_text_strategy.cpp"
 
-#include <QDebug>
-
 class RandomSongStrategy: public RandomTextStrategy {    
-    public:
-        RandomSongStrategy() {
-            initStack();
-        }
     protected:
-        QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) {
+        QList<TemporaryText*> getTemporaryTexts(QSqlQuery* query) {
             QList<TemporaryText*> tmp;
-            if (!query.exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
+            if (!query->exec("SELECT s.title, st.duration FROM songs s JOIN song_types st ON s.type_id = st.id")) {
                 qDebug() << "error retrieving song titles";
                 return tmp;
             }
             RandomGenerator randGen;
-            while (query.next()) {
+            while (query->next()) {
                 TemporaryText* tt = new TemporaryText(
-                    query.value(0).toString(),
-                    query.value(1).toInt() + randGen.bounded(-5, 10)
+                    query->value(0).toString(),
+                    query->value(1).toInt() + randGen.bounded(-5, 10)
                 );
                 tmp.append(tt);
-            }
+            };
             return tmp;
+        }
+    public:
+        RandomSongStrategy() {
+            initStack();
         }
 };
 

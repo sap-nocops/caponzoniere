@@ -22,6 +22,7 @@
 
 #include <QStack>
 #include <QtSql/QSqlQuery>
+#include <QDebug>
 
 class RandomTextStrategy {
     public:
@@ -31,13 +32,17 @@ class RandomTextStrategy {
             }
             return this->stack.pop();
         };
+        virtual ~RandomTextStrategy() {
+            qDebug() << "destroying RandomTextStrategy";
+            delete &stack;
+        }
     protected:
         QStack<TemporaryText*> stack;
-        virtual QList<TemporaryText*> getTemporaryTexts(QSqlQuery query) = 0;
+        virtual QList<TemporaryText*> getTemporaryTexts(QSqlQuery* query) = 0;
     	virtual void initStack() {
             QSqlDatabase m_db = QSqlDatabase::database();
             QSqlQuery query(m_db);
-            QList<TemporaryText*> tmp = shuffleList(getTemporaryTexts(query));
+            QList<TemporaryText*> tmp = shuffleList(getTemporaryTexts(&query));
             for (int i = 0;i < tmp.length();i++) {
                 this->stack.push(tmp.at(i));
             }
