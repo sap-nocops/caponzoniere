@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-09 22:15+0000\n"
+"POT-Creation-Date: 2020-03-16 15:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Menu.qml:12 caponzoniere.desktop.in.h:1
+#: ../qml/Singers.qml:30
+msgid "Choose Singers"
+msgstr ""
+
+#: ../qml/Singers.qml:46
+msgid "One Singer"
+msgstr ""
+
+#: ../qml/Singers.qml:53
+msgid "Two Singer"
+msgstr ""
+
+#: ../qml/Singers.qml:60
+msgid "Three Singer"
+msgstr ""
+
+#: ../qml/Singers.qml:67
+msgid "Four Singer"
+msgstr ""
+
+#: ../qml/Menu.qml:27 caponzoniere.desktop.in.h:1
 msgid "Caponzoniere"
 msgstr ""
 
-#: ../qml/Menu.qml:35 ../qml/Menu.qml:36
+#: ../qml/Menu.qml:50 ../qml/Menu.qml:51
 msgid "Random Songs"
 msgstr ""
 
-#: ../qml/Menu.qml:42 ../qml/Menu.qml:43
+#: ../qml/Menu.qml:57 ../qml/Menu.qml:58
 msgid "Random Topics"
 msgstr ""

@@ -31,11 +31,6 @@ Worker::~Worker() {
 }
 
 void Worker::process() {
-	for (int i = 10;i >0 && this->running;i--) {
-		Q_EMIT randomTextChanged(QString::number(i));
-        qDebug() << "count down emitted";
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
     while (this->running) {
         TemporaryText* tt = this->strategy->nextText();
         Q_EMIT randomTextChanged(tt->getText());

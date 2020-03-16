@@ -20,15 +20,18 @@ import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 
 Page {
+    id: singers
     anchors.fill: parent
+    property string pageTitle
+    property string textType
 
     header: PageHeader {
         id: menuHeader
-        title: i18n.tr('Caponzoniere')
+        title: i18n.tr('Choose Singers')
     }
 
     ColumnLayout {
-        spacing: units.gu(1)
+        spacing: 0
         anchors {
             margins: units.gu(1)
             top: menuHeader.bottom
@@ -37,25 +40,32 @@ Page {
             bottom: parent.bottom
         }
 
-        Image {
+        Button {
+            Layout.preferredWidth: parent.width - units.gu(1)
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredHeight: (parent.height > parent.width) ? (parent.width - units.gu(4)) * (1052/744) : parent.height - units.gu(16)
-            Layout.preferredWidth: (parent.height > parent.width) ? (parent.width - units.gu(4)) : (parent.height - units.gu(16)) * (744/1052)
-            source: "../assets/gnu_tux_capoeira.svg"
+            text: i18n.tr('One Singer')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue"]})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(1)
             Layout.alignment: Qt.AlignHCenter
-            text: i18n.tr('Random Songs')
-            onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Songs'), textType: "songs"})
+            text: i18n.tr('Two Singer')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red"]})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(1)
             Layout.alignment: Qt.AlignHCenter
-            text: i18n.tr('Random Topics')
-            onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Topics'), textType: "topics"})
+            text: i18n.tr('Three Singer')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow"]})
+        }
+
+        Button {
+            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n.tr('Four Singer')
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow", "purple"]})
         }
     }
 }

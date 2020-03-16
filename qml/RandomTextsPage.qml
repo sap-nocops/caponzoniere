@@ -26,6 +26,7 @@ Page {
     anchors.fill: parent
     property string pageTitle
     property string textType
+    property var colors
     
     header: PageHeader {
         id: header
@@ -43,10 +44,34 @@ Page {
         }
 
         Text {
-            id: randomTextDisplay
             Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: parent.width - units.gu(1)
+            font.pixelSize: units.gu(3)
+            //TODO i18n
+            text: "Colors: " + colors
+            color:  Theme.palette.normal.foregroundText
+            wrapMode: Text.Wrap
+        }
+
+        Text {
+            id: banner
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: parent.width - units.gu(1)
+            font.pixelSize: units.gu(8)
+            //TODO i18n
+            text: "Choose one color each singer and sing when the text is of your color"
+            color:  Theme.palette.normal.foregroundText
+            wrapMode: Text.Wrap
+        }
+        
+        Text {
+            id: randomTextDisplay
+            visible: false
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(8)
             color:  Theme.palette.normal.foregroundText
+            wrapMode: Text.Wrap
         }
     }
 
@@ -54,14 +79,61 @@ Page {
         target: Engine
         onRandomTextChanged: {
             randomTextDisplay.text = randomText
+            randomTextDisplay.color = pickRandomColor(randomTextDisplay.color)
         }
     }
 
     Component.onCompleted: {
-        Engine.playRandomTexts(textType)
+        
     }
 
     Component.onDestruction: {
-        Engine.stopRandomTexts()
+        Engine.stopRandomTexts();
+        pageStack.pop();
+    }
+
+    Timer {
+        id: bannerTimer
+        interval: 5000;
+        running: true;
+        repeat: false
+        onTriggered: {
+            banner.visible = false;
+            randomTextDisplay.visible = true;
+            countDownTimer.start();
+        }
+    }
+
+    Timer {
+        id: countDownTimer
+        interval: 1000;
+        repeat: true
+        property int countDown: 5
+        triggeredOnStart: true
+        onTriggered: {
+            if (countDown == 0) {
+                countDownTimer.stop();
+                startRandomTexts();
+            }
+            randomTextDisplay.text = countDown;
+            countDown--;
+        }
+    }
+
+    function startRandomTexts() {
+        Engine.playRandomTexts(textType);
+    } 
+
+    function pickRandomColor(currentColor) {
+        if (colors.length == 1) {
+            return currentColor;
+        }
+        var randomColor;
+        var random;
+        do {
+            random = Math.floor(Math.random() * colors.length);
+            randomColor = colors[random];
+        } while (randomColor == currentColor);
+        return randomColor;
     }
 }
