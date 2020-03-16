@@ -31,13 +31,12 @@ Page {
     }
 
     ColumnLayout {
-        spacing: 0
+        spacing: units.gu(1)
         anchors {
             margins: units.gu(1)
             top: menuHeader.bottom
             left: parent.left
             right: parent.right
-            bottom: parent.bottom
         }
 
         Button {

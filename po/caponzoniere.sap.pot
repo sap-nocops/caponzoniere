@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 15:45+0000\n"
+"POT-Creation-Date: 2020-03-16 16:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,19 +21,19 @@ msgstr ""
 msgid "Choose Singers"
 msgstr ""
 
-#: ../qml/Singers.qml:46
+#: ../qml/Singers.qml:44
 msgid "One Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:53
+#: ../qml/Singers.qml:51
 msgid "Two Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:60
+#: ../qml/Singers.qml:58
 msgid "Three Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:67
+#: ../qml/Singers.qml:65
 msgid "Four Singer"
 msgstr ""
 
