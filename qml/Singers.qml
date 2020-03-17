@@ -40,28 +40,28 @@ Page {
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('One Singer')
             onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue"]})
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Two Singer')
             onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red"]})
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Three Singer')
             onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow"]})
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Four Singer')
             onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow", "purple"]})

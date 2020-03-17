@@ -21,6 +21,9 @@
 #include <chrono>
 #include <thread>
 
+typedef std::chrono::high_resolution_clock Clock;
+typedef std::chrono::milliseconds milliseconds;
+
 Worker::Worker() {
 	this->running = true;
 }
@@ -34,9 +37,18 @@ void Worker::process() {
     while (this->running) {
         TemporaryText* tt = this->strategy->nextText();
         Q_EMIT randomTextChanged(tt->getText());
-        qDebug() << "text change emitted";
-        std::this_thread::sleep_for(std::chrono::seconds(tt->getDuration()));
+        milliseconds start = std::chrono::duration_cast<milliseconds>(
+            Clock::now().time_since_epoch()
+        );
+        milliseconds now;
+        milliseconds diff;
+        do {
+            std::this_thread::sleep_for(milliseconds(300));
+            now = std::chrono::duration_cast<milliseconds>(Clock::now().time_since_epoch());
+            diff = std::chrono::duration_cast<milliseconds>(now - start);
+        } while (running && (diff.count() < tt->getDuration() * 1000));
     }
+    qDebug() << "FINISHED";
 }
 
 void Worker::stop() {

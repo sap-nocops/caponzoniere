@@ -25,11 +25,15 @@ Engine::Engine() : dbInitializer(new DbInitializer()) {
 }
 
 Engine::~Engine() {
+    qDebug() << "destroyng engine";
+    if (this->worker) {
+        delete this->worker;
+    }
+    delete dbInitializer;
 }
 
 void Engine::playRandomTexts(QString textType) {
-    //TODO check for memory leaks
-    QThread* thread = new QThread;
+    QThread *thread = new QThread();
     this->worker = new Worker();
     this->worker->moveToThread(thread);
     if (textType == "songs") {
@@ -40,7 +44,7 @@ void Engine::playRandomTexts(QString textType) {
     connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
     connect(this->worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
     connect(this, SIGNAL (randomTextsFinished()), thread, SLOT (quit()));
-    connect(this, SIGNAL (randomTextsFinished()), worker, SLOT (deleteLater()));
+    connect(this, SIGNAL (randomTextsFinished()), this->worker, SLOT (deleteLater()));
     connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
     thread->start();
 }

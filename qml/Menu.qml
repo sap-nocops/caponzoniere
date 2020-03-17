@@ -45,14 +45,14 @@ Page {
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Random Songs')
             onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Songs'), textType: "songs"})
         }
 
         Button {
-            Layout.preferredWidth: parent.width - units.gu(1)
+            Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Random Topics')
             onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Topics'), textType: "topics"})

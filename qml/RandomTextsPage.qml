@@ -57,7 +57,7 @@ Page {
             id: banner
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width - units.gu(1)
-            font.pixelSize: units.gu(8)
+            font.pixelSize: units.gu(6)
             //TODO i18n
             text: "Choose one color each singer and sing when the text is of your color"
             color:  Theme.palette.normal.foregroundText
@@ -126,7 +126,7 @@ Page {
 
     function pickRandomColor(currentColor) {
         if (colors.length == 1) {
-            return currentColor;
+            return colors[0];
         }
         var randomColor;
         var random;

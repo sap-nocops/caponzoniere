@@ -34,7 +34,7 @@ class RandomTextStrategy {
         };
         virtual ~RandomTextStrategy() {
             qDebug() << "destroying RandomTextStrategy";
-            delete &stack;
+            this->stack.clear();
         }
     protected:
         QStack<TemporaryText*> stack;
