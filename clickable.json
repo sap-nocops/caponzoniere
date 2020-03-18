@@ -1,6 +1,6 @@
 {
   "template": "cmake",
-  "kill": "qmlscene",
+  "kill": "caponzoniere",
   "dependencies_host": [
   		"valgrind"
   ]
