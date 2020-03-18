@@ -15,9 +15,10 @@
  */
 
 import QtQuick 2.7
-import Ubuntu.Components 1.3
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
+//import Ergo 0.0
+import Ubuntu.Components 1.3
 
 import Engine 1.0
 
@@ -58,6 +59,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(6)
+            horizontalAlignment: Text.AlignHCenter
             //TODO i18n
             text: "Choose one color each singer and sing when the text is of your color"
             color:  Theme.palette.normal.foregroundText
@@ -70,6 +72,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(8)
+            horizontalAlignment: Text.AlignHCenter
             color:  Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }

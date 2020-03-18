@@ -1,6 +1,6 @@
 [Desktop Entry]
 _Name=Caponzoniere
-Exec=qmlscene %U qml/Main.qml
+Exec=valgrind --leak-check=summary --show-leak-kinds=possible caponzoniere %U
 Icon=assets/logo.svg
 Terminal=false
 Type=Application

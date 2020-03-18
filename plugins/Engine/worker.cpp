@@ -25,15 +25,16 @@ typedef std::chrono::high_resolution_clock Clock;
 typedef std::chrono::milliseconds milliseconds;
 
 Worker::Worker() {
-	this->running = true;
 }
 
 Worker::~Worker() {
     qDebug() << "destroying worker";
+    this->running = false;
     delete this->strategy;
 }
 
 void Worker::process() {
+    this->running = true;
     while (this->running) {
         TemporaryText* tt = this->strategy->nextText();
         Q_EMIT randomTextChanged(tt->getText());
@@ -49,6 +50,7 @@ void Worker::process() {
         } while (running && (diff.count() < tt->getDuration() * 1000));
     }
     qDebug() << "FINISHED";
+    Q_EMIT finished();
 }
 
 void Worker::stop() {

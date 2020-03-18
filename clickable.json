@@ -1,4 +1,7 @@
 {
   "template": "cmake",
-  "kill": "qmlscene"
+  "kill": "qmlscene",
+  "dependencies_host": [
+  		"valgrind"
+  ]
 }

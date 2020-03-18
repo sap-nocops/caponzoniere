@@ -19,15 +19,12 @@
 
 #include <QObject>
 
-#include "db_initializer.h"
-#include "worker.h"
-
 class Engine: public QObject {
     Q_OBJECT
 
 signals:
 	void randomTextChanged(QString randomText);
-	void randomTextsFinished();
+    void stopWorker();
 
 public:
     Engine();
@@ -39,11 +36,7 @@ public:
     Q_INVOKABLE void getSongLyrics();
 
 private:
-	Worker *worker;
-    DbInitializer *dbInitializer; 
-
-    QStringList getTopics();    
-    bool createDbFolderIfNotExists(QString dbPath);
+    QStringList getTopics();
 };
 
 #endif

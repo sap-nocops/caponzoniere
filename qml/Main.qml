@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.7
+//import Ergo 0.0
 import Ubuntu.Components 1.3
 import Qt.labs.settings 1.0
 

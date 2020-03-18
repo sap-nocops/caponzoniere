@@ -16,42 +16,43 @@
 #include "engine.h"
 #include "random_song_strategy.cpp"
 #include "random_topic_strategy.cpp"
+#include "db_initializer.h"
+#include "worker.h"
 
 #include <QDebug>
 #include <QThread>
 
-Engine::Engine() : dbInitializer(new DbInitializer()) {
-    dbInitializer->initDb();
+Engine::Engine() {
+    DbInitializer dbInitializer;
+    dbInitializer.initDb();
 }
 
 Engine::~Engine() {
     qDebug() << "destroyng engine";
-    if (this->worker) {
-        delete this->worker;
-    }
-    delete dbInitializer;
+    Q_EMIT stopWorker();
 }
 
 void Engine::playRandomTexts(QString textType) {
-    QThread *thread = new QThread();
-    this->worker = new Worker();
-    this->worker->moveToThread(thread);
+    QThread* thread = new QThread;
+    Worker* worker = new Worker();
+    worker->moveToThread(thread);
     if (textType == "songs") {
-        this->worker->setStrategy(new RandomSongStrategy());
+        worker->setStrategy(new RandomSongStrategy());
     } else {
-        this->worker->setStrategy(new RandomTopicStrategy());
+        worker->setStrategy(new RandomTopicStrategy());
     }
-    connect(thread, SIGNAL (started()), this->worker, SLOT (process()));
-    connect(this->worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
-    connect(this, SIGNAL (randomTextsFinished()), thread, SLOT (quit()));
-    connect(this, SIGNAL (randomTextsFinished()), this->worker, SLOT (deleteLater()));
+    connect(thread, SIGNAL (started()), worker, SLOT (process()));
+    connect(this, SIGNAL (stopWorker()), worker, SLOT (stop()));
+    connect(worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
+    connect(worker, SIGNAL (finished()), thread, SLOT (quit()));
+    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
     connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
+
     thread->start();
 }
 
 void Engine::stopRandomTexts() {
-    this->worker->stop();
-    Q_EMIT randomTextsFinished();
+    Q_EMIT stopWorker();
 }
 
 void Engine::listSongs() {

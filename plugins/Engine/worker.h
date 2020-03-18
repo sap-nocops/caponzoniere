@@ -27,10 +27,11 @@ public:
     Worker();
     ~Worker();
     void setStrategy(RandomTextStrategy* strategy);
-    void stop();
 public slots:
     void process();
+    void stop();
 signals:
+	void finished();
     void randomTextChanged(QString randomText);
 private:
     bool running;
