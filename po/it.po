@@ -19,57 +19,57 @@ msgstr ""
 
 #: ../qml/Singers.qml:31
 msgid "Choose Singers"
-msgstr ""
+msgstr "Scegli Numero Cantanti"
 
 #: ../qml/Singers.qml:46
 msgid "One Singer"
-msgstr ""
+msgstr "Un Cantante"
 
 #: ../qml/Singers.qml:47 ../qml/Singers.qml:54 ../qml/Singers.qml:61
 #: ../qml/Singers.qml:68
 msgid "blue"
-msgstr ""
+msgstr "blu"
 
 #: ../qml/Singers.qml:53
 msgid "Two Singer"
-msgstr ""
+msgstr "Due Cantanti"
 
 #: ../qml/Singers.qml:54 ../qml/Singers.qml:61 ../qml/Singers.qml:68
 msgid "red"
-msgstr ""
+msgstr "rosso"
 
 #: ../qml/Singers.qml:60
 msgid "Three Singer"
-msgstr ""
+msgstr "Tre Cantanti"
 
 #: ../qml/Singers.qml:61 ../qml/Singers.qml:68
 msgid "yellow"
-msgstr ""
+msgstr "giallo"
 
 #: ../qml/Singers.qml:67
 msgid "Four Singer"
-msgstr ""
+msgstr "Quattro Cantanti"
 
 #: ../qml/Singers.qml:68
 msgid "purple"
-msgstr ""
+msgstr "viola"
 
 #: ../qml/Menu.qml:28 caponzoniere.desktop.in.h:1
 msgid "Caponzoniere"
-msgstr ""
+msgstr "Caponzoniere"
 
 #: ../qml/Menu.qml:51 ../qml/Menu.qml:52
 msgid "Random Songs"
-msgstr ""
+msgstr "Corridos Casuali"
 
 #: ../qml/Menu.qml:58 ../qml/Menu.qml:59
 msgid "Random Topics"
-msgstr ""
+msgstr "Argomenti Casuali"
 
 #: ../qml/RandomTextsPage.qml:51
 msgid "Colors: "
-msgstr ""
+msgstr "Colori: "
 
 #: ../qml/RandomTextsPage.qml:62
 msgid "Choose one color each singer and sing when the text is of your color"
-msgstr ""
+msgstr "Scegli un colore per cantante and canta quando il testo è del tuo colore"
