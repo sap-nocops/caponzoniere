@@ -25,6 +25,10 @@ MainView {
     applicationName: 'caponzoniere.sap'
     automaticOrientation: true
 
+    //width: units.dp(400)
+    //height: units.dp(640)
+
+
     PageStack {
         id: pageStack
         anchors.fill: parent
@@ -33,4 +37,9 @@ MainView {
     Component.onCompleted: {
         pageStack.push(Qt.resolvedUrl("Menu.qml"), {})
     }
+
+    //onClosed: {
+    //    console.log("closing window");
+    //    destroy();
+    //}
 }

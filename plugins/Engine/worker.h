@@ -18,21 +18,20 @@
 #define WORKER_H
 
 #include <QObject>
-#include <QStringList>
+#include <QRunnable>
+#include <QString>
 #include "random_text_strategy.cpp"
 
-class Worker : public QObject {
-    Q_OBJECT
+class Worker : public QObject, public QRunnable{
+	Q_OBJECT
 public:
-    Worker();
+    Worker(RandomTextStrategy* strategy);
     ~Worker();
-    void setStrategy(RandomTextStrategy* strategy);
-public slots:
-    void process();
     void stop();
 signals:
-	void finished();
     void randomTextChanged(QString randomText);
+protected:
+    void run();
 private:
     bool running;
     RandomTextStrategy* strategy;

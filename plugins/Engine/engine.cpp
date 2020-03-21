@@ -17,10 +17,9 @@
 #include "random_song_strategy.cpp"
 #include "random_topic_strategy.cpp"
 #include "db_initializer.h"
-#include "worker.h"
 
 #include <QDebug>
-#include <QThread>
+#include <QThreadPool>
 
 Engine::Engine() {
     DbInitializer dbInitializer;
@@ -28,31 +27,26 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    qDebug() << "destroyng engine";
-    Q_EMIT stopWorker();
+    qDebug() << "destroying engine";
+    if (worker) {
+        worker->stop();
+    }
 }
 
 void Engine::playRandomTexts(QString textType) {
-    QThread* thread = new QThread;
-    Worker* worker = new Worker();
-    worker->moveToThread(thread);
     if (textType == "songs") {
-        worker->setStrategy(new RandomSongStrategy());
+        worker = new Worker(new RandomSongStrategy());
     } else {
-        worker->setStrategy(new RandomTopicStrategy());
+        worker = new Worker(new RandomTopicStrategy());
     }
-    connect(thread, SIGNAL (started()), worker, SLOT (process()));
-    connect(this, SIGNAL (stopWorker()), worker, SLOT (stop()));
     connect(worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
-    connect(worker, SIGNAL (finished()), thread, SLOT (quit()));
-    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
-    connect(thread, SIGNAL (finished()), thread, SLOT (deleteLater()));
 
-    thread->start();
+    QThreadPool::globalInstance()->start(worker);
 }
 
 void Engine::stopRandomTexts() {
-    Q_EMIT stopWorker();
+    qDebug() << "stopping worker";
+    worker->stop();
 }
 
 void Engine::listSongs() {

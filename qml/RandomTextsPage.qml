@@ -48,8 +48,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(3)
-            //TODO i18n
-            text: "Colors: " + colors
+            text: i18n.tr('Colors: ') + colors
             color:  Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
@@ -60,8 +59,7 @@ Page {
             Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(6)
             horizontalAlignment: Text.AlignHCenter
-            //TODO i18n
-            text: "Choose one color each singer and sing when the text is of your color"
+            text: i18n.tr('Choose one color each singer and sing when the text is of your color')
             color:  Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
@@ -86,11 +84,8 @@ Page {
         }
     }
 
-    Component.onCompleted: {
-        
-    }
-
     Component.onDestruction: {
+        console.log("destroying RandomTextsPage");
         Engine.stopRandomTexts();
         pageStack.pop();
     }

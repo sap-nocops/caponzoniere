@@ -1,7 +1,4 @@
 {
   "template": "cmake",
-  "kill": "caponzoniere",
-  "dependencies_host": [
-  		"valgrind"
-  ]
+  "kill": "caponzoniere"
 }

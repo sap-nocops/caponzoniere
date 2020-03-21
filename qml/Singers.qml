@@ -44,28 +44,28 @@ Page {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('One Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue"]})
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: [i18n.tr('blue')]})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Two Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red"]})
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: [i18n.tr('blue'), i18n.tr('red')]})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Three Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow"]})
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow')]})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Four Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: ["blue", "red", "yellow", "purple"]})
+            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colors: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow'), i18n.tr('purple')]})
         }
     }
 }

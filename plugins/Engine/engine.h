@@ -19,12 +19,13 @@
 
 #include <QObject>
 
+#include "worker.h"
+
 class Engine: public QObject {
     Q_OBJECT
 
 signals:
 	void randomTextChanged(QString randomText);
-    void stopWorker();
 
 public:
     Engine();
@@ -37,6 +38,7 @@ public:
 
 private:
     QStringList getTopics();
+    Worker* worker;
 };
 
 #endif

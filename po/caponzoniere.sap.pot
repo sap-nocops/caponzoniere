@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-18 23:03+0000\n"
+"POT-Creation-Date: 2020-03-21 00:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,16 +25,33 @@ msgstr ""
 msgid "One Singer"
 msgstr ""
 
+#: ../qml/Singers.qml:47 ../qml/Singers.qml:54 ../qml/Singers.qml:61
+#: ../qml/Singers.qml:68
+msgid "blue"
+msgstr ""
+
 #: ../qml/Singers.qml:53
 msgid "Two Singer"
+msgstr ""
+
+#: ../qml/Singers.qml:54 ../qml/Singers.qml:61 ../qml/Singers.qml:68
+msgid "red"
 msgstr ""
 
 #: ../qml/Singers.qml:60
 msgid "Three Singer"
 msgstr ""
 
+#: ../qml/Singers.qml:61 ../qml/Singers.qml:68
+msgid "yellow"
+msgstr ""
+
 #: ../qml/Singers.qml:67
 msgid "Four Singer"
+msgstr ""
+
+#: ../qml/Singers.qml:68
+msgid "purple"
 msgstr ""
 
 #: ../qml/Menu.qml:28 caponzoniere.desktop.in.h:1
@@ -47,4 +64,12 @@ msgstr ""
 
 #: ../qml/Menu.qml:58 ../qml/Menu.qml:59
 msgid "Random Topics"
+msgstr ""
+
+#: ../qml/RandomTextsPage.qml:51
+msgid "Colors: "
+msgstr ""
+
+#: ../qml/RandomTextsPage.qml:62
+msgid "Choose one color each singer and sing when the text is of your color"
 msgstr ""

@@ -24,7 +24,8 @@
 typedef std::chrono::high_resolution_clock Clock;
 typedef std::chrono::milliseconds milliseconds;
 
-Worker::Worker() {
+Worker::Worker(RandomTextStrategy* strategy) {
+    this->strategy = strategy;
 }
 
 Worker::~Worker() {
@@ -33,7 +34,7 @@ Worker::~Worker() {
     delete this->strategy;
 }
 
-void Worker::process() {
+void Worker::run() {
     this->running = true;
     while (this->running) {
         TemporaryText* tt = this->strategy->nextText();
@@ -50,14 +51,9 @@ void Worker::process() {
         } while (running && (diff.count() < tt->getDuration() * 1000));
     }
     qDebug() << "FINISHED";
-    Q_EMIT finished();
 }
 
 void Worker::stop() {
     qDebug() << "STOPPED";
     this->running = false;
-}
-
-void Worker::setStrategy(RandomTextStrategy* strategy) {
-    this->strategy = strategy;
 }
