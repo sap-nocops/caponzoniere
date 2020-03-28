@@ -13,30 +13,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CAPONZONIERE_SONG_MODEL_H
+#define CAPONZONIERE_SONG_MODEL_H
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#include <QtCore/QAbstractListModel>
+#include "song.h"
 
-#include <QObject>
-
-#include "worker.h"
-
-class Engine: public QObject {
-    Q_OBJECT
-
-signals:
-	void randomTextChanged(QString randomText);
-
+class SongModel : public QAbstractListModel
+{
+Q_OBJECT
 public:
-    Engine();
-    ~Engine() override;
+    enum SongRoles {
+        Id = Qt::UserRole + 1,
+        Title
+    };
 
-    Q_INVOKABLE void playRandomTexts(const QString& textType);
-    Q_INVOKABLE void stopRandomTexts();
-    Q_INVOKABLE QString getSongLyrics(int id);
+    SongModel(QObject *parent = 0);
 
+    void addSong(const Song &song);
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+
+protected:
+    QHash<int, QByteArray> roleNames() const;
 private:
-    Worker* worker;
+    QList<Song> m_songs;
 };
 
 #endif

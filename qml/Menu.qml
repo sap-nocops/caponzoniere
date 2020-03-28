@@ -14,10 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
-//import Ergo 0.0
 import Ubuntu.Components 1.3
 
 Page {
@@ -40,9 +39,16 @@ Page {
 
         Image {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredHeight: (parent.height > parent.width) ? (parent.width - units.gu(4)) * (1052/744) : parent.height - units.gu(16)
-            Layout.preferredWidth: (parent.height > parent.width) ? (parent.width - units.gu(4)) : (parent.height - units.gu(16)) * (744/1052)
+            Layout.preferredHeight: (parent.height > parent.width) ? (parent.width - units.gu(8)) * (1052/744) : parent.height - units.gu(16)
+            Layout.preferredWidth: (parent.height > parent.width) ? (parent.width - units.gu(8)) : (parent.height - units.gu(16)) * (744/1052)
             source: "../assets/gnu_tux_capoeira.svg"
+        }
+
+        Button {
+            Layout.preferredWidth: parent.width - units.gu(4)
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n.tr('Songs lyrics')
+            onClicked: pageStack.push(Qt.resolvedUrl("Songs.qml"))
         }
 
         Button {

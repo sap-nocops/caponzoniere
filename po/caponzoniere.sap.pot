@@ -1,75 +1,83 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the caponzoniere.sap package.
-# Lorenzo Torracchi <lorenzotorracchi@mail.com>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-21 00:28+0000\n"
-"PO-Revision-Date: 2020-03-21 00:28+0000\n"
-"Last-Translator: Lorenzo Torracchi <lorenzotorracchi@mail.com>\n"
-"Language-Team: Italian <it@li.org>\n"
-"Language: italian\n"
+"POT-Creation-Date: 2020-03-28 22:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Singers.qml:31
+#: ../qml/Songs.qml:26
+msgid "Songs"
+msgstr ""
+
+#: ../qml/Singers.qml:29
 msgid "Choose Singers"
 msgstr ""
 
-#: ../qml/Singers.qml:46
+#: ../qml/Singers.qml:44
 msgid "One Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:47 ../qml/Singers.qml:54 ../qml/Singers.qml:61
-#: ../qml/Singers.qml:68
+#: ../qml/Singers.qml:45 ../qml/Singers.qml:52 ../qml/Singers.qml:59
+#: ../qml/Singers.qml:66
 msgid "blue"
 msgstr ""
 
-#: ../qml/Singers.qml:53
+#: ../qml/Singers.qml:51
 msgid "Two Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:54 ../qml/Singers.qml:61 ../qml/Singers.qml:68
+#: ../qml/Singers.qml:52 ../qml/Singers.qml:59 ../qml/Singers.qml:66
 msgid "red"
 msgstr ""
 
-#: ../qml/Singers.qml:60
+#: ../qml/Singers.qml:58
 msgid "Three Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:61 ../qml/Singers.qml:68
+#: ../qml/Singers.qml:59 ../qml/Singers.qml:66
 msgid "yellow"
 msgstr ""
 
-#: ../qml/Singers.qml:67
+#: ../qml/Singers.qml:65
 msgid "Four Singer"
 msgstr ""
 
-#: ../qml/Singers.qml:68
+#: ../qml/Singers.qml:66
 msgid "purple"
 msgstr ""
 
-#: ../qml/Menu.qml:28 caponzoniere.desktop.in.h:1
+#: ../qml/Menu.qml:27 caponzoniere.desktop.in.h:1
 msgid "Caponzoniere"
 msgstr ""
 
-#: ../qml/Menu.qml:51 ../qml/Menu.qml:52
+#: ../qml/Menu.qml:50
+msgid "Songs lyrics"
+msgstr ""
+
+#: ../qml/Menu.qml:57 ../qml/Menu.qml:58
 msgid "Random Songs"
 msgstr ""
 
-#: ../qml/Menu.qml:58 ../qml/Menu.qml:59
+#: ../qml/Menu.qml:64 ../qml/Menu.qml:65
 msgid "Random Topics"
 msgstr ""
 
-#: ../qml/RandomTextsPage.qml:51
+#: ../qml/RandomTextsPage.qml:49
 msgid "Colors: "
 msgstr ""
 
-#: ../qml/RandomTextsPage.qml:62
+#: ../qml/RandomTextsPage.qml:60
 msgid "Choose one color each singer and sing when the text is of your color"
 msgstr ""

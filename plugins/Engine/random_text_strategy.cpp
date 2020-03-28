@@ -43,8 +43,8 @@ class RandomTextStrategy {
             QSqlDatabase m_db = QSqlDatabase::database();
             QSqlQuery query(m_db);
             QList<TemporaryText*> tmp = shuffleList(getTemporaryTexts(&query));
-            for (int i = 0;i < tmp.length();i++) {
-                this->stack.push(tmp.at(i));
+            for (auto tt : tmp) {
+                this->stack.push(tt);
             }
         }
     private:

@@ -13,30 +13,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QtCore/QString>
+#include "song.h"
 
-#ifndef ENGINE_H
-#define ENGINE_H
+Song::Song(int id, QString title) : m_id(id), m_title(std::move(title)) {}
 
-#include <QObject>
+int Song::id() const {
+    return m_id;
+}
 
-#include "worker.h"
-
-class Engine: public QObject {
-    Q_OBJECT
-
-signals:
-	void randomTextChanged(QString randomText);
-
-public:
-    Engine();
-    ~Engine() override;
-
-    Q_INVOKABLE void playRandomTexts(const QString& textType);
-    Q_INVOKABLE void stopRandomTexts();
-    Q_INVOKABLE QString getSongLyrics(int id);
-
-private:
-    Worker* worker;
-};
-
-#endif
+const QString &Song::title() const {
+    return m_title;
+}

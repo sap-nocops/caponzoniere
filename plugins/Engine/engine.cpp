@@ -16,14 +16,11 @@
 #include "engine.h"
 #include "random_song_strategy.cpp"
 #include "random_topic_strategy.cpp"
-#include "db_initializer.h"
 
 #include <QDebug>
 #include <QThreadPool>
 
 Engine::Engine() {
-    DbInitializer dbInitializer;
-    dbInitializer.initDb();
 }
 
 Engine::~Engine() {
@@ -33,7 +30,7 @@ Engine::~Engine() {
     }
 }
 
-void Engine::playRandomTexts(QString textType) {
+void Engine::playRandomTexts(const QString &textType) {
     if (textType == "songs") {
         worker = new Worker(new RandomSongStrategy());
     } else {
@@ -49,10 +46,13 @@ void Engine::stopRandomTexts() {
     worker->stop();
 }
 
-void Engine::listSongs() {
-
-}
-
-void Engine::getSongLyrics() {
-
+QString Engine::getSongLyrics(int id) {
+    QSqlDatabase m_db = QSqlDatabase::database();
+    QSqlQuery query(m_db);
+    if (!query.exec("SELECT lyrics FROM songs WHERE id = " + QString::number(id))) {
+        qDebug() << "error retrieving song lyrics";
+        return "Error";
+    }
+    query.first();
+    return query.value(0).toString();
 }

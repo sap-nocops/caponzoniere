@@ -15,22 +15,37 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 
-ApplicationWindow {
-    id: root
-    width: Suru.units.gu(45)
-    height: Suru.units.gu(75)
-    visible: true
+import Engine 1.0
 
-    PageStack {
-        id: pageStack
-        anchors.fill: parent
+Page {
+    id: lyrics
+    anchors.fill: parent
+    property string songTitle
+    property int songId
+
+    header: PageHeader {
+        id: lyricsHeader
+        title: songTitle
+    }
+
+    Text {
+       id: lyricsText
+       anchors {
+           margins: units.gu(1)
+           top: lyricsHeader.bottom
+           left: parent.left + units.gu(1)
+           right: parent.right - units.gu(1)
+           bottom: parent.bottom
+       }
+       height: parent.height - lyricsHeader.height
+       width: parent.width
+       font.pixelSize: units.gu(5)
+       wrapMode: Text.Wrap
     }
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("Menu.qml"), {})
+        lyricsText.text = Engine.getSongLyrics(songId);
     }
 }

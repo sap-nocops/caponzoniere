@@ -15,22 +15,34 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 
-ApplicationWindow {
-    id: root
-    width: Suru.units.gu(45)
-    height: Suru.units.gu(75)
-    visible: true
+Page {
+    id: songs
+    anchors.fill: parent
 
-    PageStack {
-        id: pageStack
-        anchors.fill: parent
+    header: PageHeader {
+        id: songsHeader
+        title: i18n.tr('Songs')
     }
 
-    Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("Menu.qml"), {})
+    ListView {
+        width: parent.width; height: parent.height - songsHeader.height
+
+        model: songModel
+        delegate: Item {
+            height: units.gu(5)
+            width: parent.width
+            Text {
+                text: title
+                font.pixelSize: units.gu(5)
+            }
+
+            MouseArea {
+                height: parent.height
+                width: parent.width
+                onClicked: pageStack.push(Qt.resolvedUrl("Lyrics.qml"), {songTitle: title, songId: id})
+            }
+        }
     }
 }

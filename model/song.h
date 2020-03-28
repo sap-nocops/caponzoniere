@@ -13,17 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CAPONZONIERE_SONG_H
+#define CAPONZONIERE_SONG_H
 
-#ifndef DB_INITIALIZER_H
-#define _INITIALIZER_H
+class Song {
+public:
+    Song(int id, QString title);
+    int id() const;
+    const QString &title() const;
 
-#include <QString>
-
-class DbInitializer {
-	public:
-	    void initDb();
-	private:
-		bool createDbFolderIfNotExists(QString dbPath);
+private:
+    int m_id;
+    QString m_title;
 };
 
 #endif

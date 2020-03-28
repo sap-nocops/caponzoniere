@@ -43,8 +43,8 @@ install(FILES ${PROJECT_NAME}.apparmor DESTINATION ${DATA_DIR})
 install(DIRECTORY qml DESTINATION ${DATA_DIR})
 install(DIRECTORY assets DESTINATION ${DATA_DIR})
 
-add_executable(${PROJECT_NAME} main.cpp)
-qt5_use_modules(${PROJECT_NAME} Gui Qml Quick QuickControls2)
+add_executable(${PROJECT_NAME} main.cpp model/song_model.cpp model/song_model.h model/song.cpp model/song.h)
+qt5_use_modules(${PROJECT_NAME} Gui Qml Quick QuickControls2 Sql)
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 
@@ -75,8 +75,8 @@ add_subdirectory(plugins)
 # Make source files visible in qtcreator
 file(GLOB_RECURSE PROJECT_SRC_FILES
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-    qml/*.qml
-    qml/*.js
+        qml/*.qml
+        qml/*.js
     *.json
     *.json.in
     *.apparmor
