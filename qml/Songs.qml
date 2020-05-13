@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.9
+import QtQuick.Layouts 1.3
 import Ubuntu.Components 1.3
 
 Page {
@@ -26,22 +27,58 @@ Page {
         title: i18n.tr('Songs')
     }
 
-    ListView {
-        width: parent.width; height: parent.height - songsHeader.height
+    ColumnLayout {
+        spacing: 1
+        anchors {
+            margins: units.gu(1)
+            top: songsHeader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
 
-        model: songModel
-        delegate: Item {
-            height: units.gu(5)
-            width: parent.width
-            Text {
-                text: title
-                font.pixelSize: units.gu(5)
+        Rectangle {
+            id: searchSong
+            Layout.preferredHeight: units.gu(5)
+            Layout.preferredWidth: parent.width
+            border.width: 1
+            border.color: UbuntuColors.green
+            color: Theme.palette.normal.background
+            radius: 5
+            focus: true
+
+            TextInput {
+                id: searchSongTextInput
+                font.pixelSize: units.gu(3)
+                color: UbuntuColors.red
+                onTextEdited: songModel.setFilterString(text);
+                /*property string placeholderText: i18n.tr('Search...')
+                Text {
+                    text: searchSongTextInput.placeholderText
+                    color: "#aaa"
+                    visible: !searchSongTextInput.text
+                }*/
             }
+        }
 
-            MouseArea {
-                height: parent.height
+        ListView {
+            Layout.preferredHeight: parent.height - searchSong.height
+            Layout.preferredWidth: parent.width
+            model: songFilter
+            delegate: Item {
+                height: units.gu(3)
                 width: parent.width
-                onClicked: pageStack.push(Qt.resolvedUrl("Lyrics.qml"), {songTitle: title, songId: id})
+                Text {
+                    text: title
+                    font.pixelSize: units.gu(3)
+                    color: Theme.palette.normal.foregroundText
+                }
+
+                MouseArea {
+                    height: parent.height
+                    width: parent.width
+                    onClicked: pageStack.push(Qt.resolvedUrl("Lyrics.qml"), {songTitle: title, songId: id})
+                }
             }
         }
     }

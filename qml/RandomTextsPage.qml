@@ -47,7 +47,7 @@ Page {
             Layout.preferredWidth: parent.width - units.gu(1)
             font.pixelSize: units.gu(3)
             text: i18n.tr('Colors: ') + colors
-            color:  Theme.palette.normal.foregroundText
+            color: Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
 

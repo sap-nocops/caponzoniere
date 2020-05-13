@@ -26,8 +26,18 @@
 #include <QtSql/QSqlError>
 #include <QtQuickControls2/QQuickStyle>
 #include <QQmlContext>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QtCore/QMutex>
 #include "model/song_model.h"
 #include "model/song.h"
+#include "model/songfilterproxymodel.h"
+#include "db/db_initializer.h"
+
+#define foreach Q_FOREACH
 
 bool createDbFolderIfNotExists(const QString &dbPath) {
     if (!QFile::exists(dbPath)) {
@@ -41,53 +51,6 @@ bool createDbFolderIfNotExists(const QString &dbPath) {
     return true;
 }
 
-bool initDb() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
-    if (!createDbFolderIfNotExists(dbPath)) {
-        return false;
-    }
-    db.setDatabaseName(dbPath + "/caponzoniere_db.sqlite");
-    if (!db.open()) {
-        qDebug() << "failed to connect to db";
-        return false;
-    }
-
-    if (QSqlDatabase::database().tables().contains(QStringLiteral("songs"))) {
-        qDebug() << "db already initialized";
-        return true;
-    }
-
-    QFile file("assets/initDb.sql");
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Could not open file: " << file.fileName();
-        return false;
-    }
-
-    QSqlQuery query(db);
-    QString sql;
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-        sql += in.readLine() + "\n";
-    }
-    file.close();
-
-    QStringList statements = sql.split(";", QString::SkipEmptyParts);
-            foreach (QString statement, statements) {
-            if (statement.trimmed() == "") {
-                continue;
-            }
-
-            if (!query.exec(statement)) {
-                qDebug() << "Error executing database file: " << file.fileName();
-                qDebug() << query.lastError().text();
-                qDebug() << "SQLite string: " << query.lastQuery();
-            }
-        }
-    statements.clear();
-    return true;
-}
-
 int main(int argc, char *argv[]) {
     qDebug() << "Starting app from main.cpp";
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -96,14 +59,15 @@ int main(int argc, char *argv[]) {
 
     QQuickStyle::setStyle("Suru");
 
-    if (!initDb()) {
-        qCritical() << "cannot init db";
-        return -1;
-    }
+    QMutex mutex;
+    DbInitializer dbInit;
+    dbInit.setOutMutex(&mutex);
+    dbInit.initDb();
+    mutex.lock();
 
     SongModel songModel;
     QSqlQuery query;
-    if (!query.exec("SELECT id, title FROM songs")) {
+    if (!query.exec("SELECT id, title FROM songs ORDER BY title")) {
         qCritical() << "cannot load songs";
         return -1;
     }
@@ -115,6 +79,10 @@ int main(int argc, char *argv[]) {
                 )
         );
     };
+    SongFilterProxyModel filterModel;
+    filterModel.setSourceModel(&songModel);
+    filterModel.setFilterRole(SongModel::SongRoles::Title);
+    filterModel.setSortRole(SongModel::SongRoles::Title);
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qml/Main.qml")));
@@ -122,6 +90,6 @@ int main(int argc, char *argv[]) {
         qCritical() << "engine rootObjects is empty";
         return -1;
     }
-    engine.rootContext()->setContextProperty("songModel", &songModel);
+    engine.rootContext()->setContextProperty("songFilter", &filterModel);
     return QGuiApplication::exec();
 }

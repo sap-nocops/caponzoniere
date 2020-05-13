@@ -41,6 +41,7 @@ Page {
        }
        height: parent.height - lyricsHeader.height
        width: parent.width
+       color: Theme.palette.normal.foregroundText
        font.pixelSize: units.gu(5)
        wrapMode: Text.Wrap
     }
