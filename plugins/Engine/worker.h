@@ -28,10 +28,9 @@ public:
     Worker(RandomTextStrategy* strategy);
     ~Worker();
     void stop();
+    void run();
 signals:
     void randomTextChanged(QString randomText);
-protected:
-    void run();
 private:
     bool running;
     RandomTextStrategy* strategy;

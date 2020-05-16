@@ -22,24 +22,21 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QMutex>
+#include <QRunnable>
 
 class DbInitializer : public QObject {
 Q_OBJECT
 
 private:
-    QNetworkReply *reply;
-    QMutex mutex;
-    QNetworkAccessManager qnam;
-    QMutex* outMutex;
+    QNetworkAccessManager *qnam;
+    QNetworkReply* reply;
 public:
     void initDb();
-    void setOutMutex(QMutex* mutex);
 private:
     QStringList getVersions();
-private slots:
     void updateDb();
     void applyChange();
+    bool handleError();
 };
-
 
 #endif //CAPONZONIERE_DB_INITIALIZER_H

@@ -26,12 +26,9 @@
 #include <QtSql/QSqlError>
 #include <QtQuickControls2/QQuickStyle>
 #include <QQmlContext>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QtCore/QMutex>
 #include "model/song_model.h"
 #include "model/song.h"
 #include "model/songfilterproxymodel.h"
@@ -59,11 +56,9 @@ int main(int argc, char *argv[]) {
 
     QQuickStyle::setStyle("Suru");
 
-    QMutex mutex;
     DbInitializer dbInit;
-    dbInit.setOutMutex(&mutex);
     dbInit.initDb();
-    mutex.lock();
+    qDebug() << "rieccomi";
 
     SongModel songModel;
     QSqlQuery query;

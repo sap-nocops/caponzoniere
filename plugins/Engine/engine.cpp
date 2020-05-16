@@ -16,8 +16,6 @@
 #include "engine.h"
 #include "random_song_strategy.cpp"
 #include "random_topic_strategy.cpp"
-
-#include <QDebug>
 #include <QThreadPool>
 
 Engine::Engine() {

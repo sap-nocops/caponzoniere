@@ -17,21 +17,33 @@
 #include <QtNetwork>
 #include "db_initializer.h"
 
-void DbInitializer::setOutMutex(QMutex *outMutex) {
-    this->outMutex = outMutex;
-}
-
 void DbInitializer::initDb() {
-    outMutex->lock();
+    qDebug() << "init";
     //TODO retrieve app version
-    reply = qnam.get(QNetworkRequest( QUrl::fromUserInput("clorofilla.io/versions/caponzoniere/1.0.0")));
-    connect(reply, SIGNAL(&QNetworkReply::finished), this, SLOT(DbInitializer::updateDb()));
+    QUrl url;
+    url.setScheme("http");
+    url.setHost("localhost");
+    //url.setPath("/versions/caponzoniere/1.0.0");
+    url.setPort(8080);
+    QNetworkRequest request;
+    //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setUrl(url);
+    qnam = new QNetworkAccessManager();
+    QEventLoop loop;
+    reply = qnam->get(request);
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+    updateDb();
+    qDebug() << "chiamato";
 }
 
 QStringList DbInitializer::getVersions() {
-    QJsonArray dbVersions = QJsonDocument::fromJson(reply->readAll()).array();
+    QString tmp = QString::fromUtf8(reply->readAll());
+    qDebug() << tmp;
+    QJsonArray dbVersions = QJsonDocument::fromJson(tmp.toUtf8()).array();
     QStringList versionsToGetChanges;
     bool toAdd = false;
+    //TODO retrieve current db version
     QString currentDbVersion = "v1";
     foreach (const QJsonValue & v, dbVersions) {
         if (currentDbVersion == v.toString()) {
@@ -46,24 +58,38 @@ QStringList DbInitializer::getVersions() {
 }
 
 void DbInitializer::updateDb() {
-    if (reply->error()) {
-        reply->deleteLater();
-        reply = nullptr;
+    qDebug() << "update";
+    if (handleError()) {
         return;
     }
-
+    qDebug() << "no error";
     QStringList versionsToGetChanges = getVersions();
     foreach (const QString v, versionsToGetChanges) {
-        mutex.lock();
-        reply = qnam.get(QNetworkRequest( QUrl::fromUserInput("clorofilla.io/changes/caponzoniere/" + v)));
-        connect(reply, SIGNAL(&QNetworkReply::finished), this, SLOT(DbInitializer::applyChange()));
+        QEventLoop loop;
+        reply = qnam->get(QNetworkRequest(QUrl("http://localhost:8080/changes/caponzoniere/" + v)));
+        connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+        if (handleError()) {
+            break;
+        }
+        qDebug() << "cambiamento";
     }
-    outMutex->unlock();
+    qDebug() << "finito";
 }
 
 void DbInitializer::applyChange() {
-    QString change = QString(reply->readAll());
+    QString change = QString::fromUtf8(reply->readAll());
     //TODO exec sql
+    qDebug() << change;
     qDebug() << "changed applied";
-    mutex.unlock();
+}
+
+bool DbInitializer::handleError() {
+    if (reply->error()) {
+        qDebug() << "error" << reply->error();
+        reply->deleteLater();
+        reply = nullptr;
+        return true;
+    }
+    return false;
 }
