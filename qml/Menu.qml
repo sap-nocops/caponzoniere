@@ -27,7 +27,7 @@ Page {
         title: i18n.tr('Caponzoniere')
     }
 
-    ColumnLayout {
+   ColumnLayout {
         spacing: units.gu(1)
         anchors {
             margins: units.gu(1)

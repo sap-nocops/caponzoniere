@@ -31,12 +31,17 @@ private:
     QNetworkAccessManager *qnam;
     QNetworkReply* reply;
 public:
-    void initDb();
+    bool initDb();
 private:
     QStringList getVersions();
-    void updateDb();
+    bool updateDb();
     void applyChange();
-    bool handleError();
+    void handleError();
+    bool createDbFolderIfNotExists(const QString &dbPath);
+    QJsonArray listDbVersions();
+    QString getCurrentDbVersion();
+
+    bool saveNewDbVersion(QString &qString);
 };
 
 #endif //CAPONZONIERE_DB_INITIALIZER_H

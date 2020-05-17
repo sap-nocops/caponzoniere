@@ -36,20 +36,9 @@
 
 #define foreach Q_FOREACH
 
-bool createDbFolderIfNotExists(const QString &dbPath) {
-    if (!QFile::exists(dbPath)) {
-        QDir dir;
-        bool createOk = dir.mkpath(dbPath);
-        if (!createOk) {
-            qWarning() << "Unable to create DB directory" << dbPath;
-            return false;
-        }
-    }
-    return true;
-}
+int showErrorPage();
 
 int main(int argc, char *argv[]) {
-    qDebug() << "Starting app from main.cpp";
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     QGuiApplication::setApplicationName("caponzoniere.sap");
@@ -57,8 +46,9 @@ int main(int argc, char *argv[]) {
     QQuickStyle::setStyle("Suru");
 
     DbInitializer dbInit;
-    dbInit.initDb();
-    qDebug() << "rieccomi";
+    if (!dbInit.initDb()) {
+        return showErrorPage();
+    }
 
     SongModel songModel;
     QSqlQuery query;
@@ -86,5 +76,15 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     engine.rootContext()->setContextProperty("songFilter", &filterModel);
+    return QGuiApplication::exec();
+}
+
+int showErrorPage() {
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qml/ErrorPage.qml")));
+    if (engine.rootObjects().isEmpty()) {
+        qCritical() << "engine rootObjects is empty";
+        return -1;
+    }
     return QGuiApplication::exec();
 }
