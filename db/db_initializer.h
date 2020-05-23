@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include <QMutex>
 #include <QRunnable>
+#include "app_db_version.h"
 
 class DbInitializer : public QObject {
 Q_OBJECT
@@ -33,15 +34,14 @@ private:
 public:
     bool initDb();
 private:
-    QStringList getVersions();
+    QStringList getVersions(AppDbVersion currentDbVersion, QString appVersion);
     bool updateDb();
     void applyChange();
     void handleError();
     bool createDbFolderIfNotExists(const QString &dbPath);
-    QJsonArray listDbVersions();
-    QString getCurrentDbVersion();
-
-    bool saveNewDbVersion(QString &qString);
+    QJsonArray listDbVersions(QString appVersion);
+    AppDbVersion getCurrentAppDbVersion();
+    bool saveNewDbVersion(QString &dbVer, QString &appVer);
 };
 
 #endif //CAPONZONIERE_DB_INITIALIZER_H

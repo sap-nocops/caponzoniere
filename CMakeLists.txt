@@ -43,7 +43,7 @@ install(FILES ${PROJECT_NAME}.apparmor DESTINATION ${DATA_DIR})
 install(DIRECTORY qml DESTINATION ${DATA_DIR})
 install(DIRECTORY assets DESTINATION ${DATA_DIR})
 
-add_executable(${PROJECT_NAME} main.cpp model/song_model.cpp model/song_model.h model/song.cpp model/song.h model/songfilterproxymodel.cpp model/songfilterproxymodel.h db/db_initializer.cpp db/db_initializer.h)
+add_executable(${PROJECT_NAME} main.cpp model/song_model.cpp model/song_model.h model/song.cpp model/song.h model/songfilterproxymodel.cpp model/songfilterproxymodel.h db/db_initializer.cpp db/db_initializer.h db/app_db_version.cpp db/app_db_version.h)
 qt5_use_modules(${PROJECT_NAME} Gui Qml Quick QuickControls2 Sql)
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 

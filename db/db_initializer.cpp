@@ -17,6 +17,8 @@
 #include <QtNetwork>
 #include <QtSql>
 #include "db_initializer.h"
+#include "app_db_version.h"
+
 #define foreach Q_FOREACH
 
 bool DbInitializer::createDbFolderIfNotExists(const QString &dbPath) {
@@ -43,13 +45,13 @@ bool DbInitializer::initDb() {
         return false;
     }
 
-    if (QSqlDatabase::database().tables().contains(QStringLiteral("db_version"))) {
+    if (QSqlDatabase::database().tables().contains(QStringLiteral("current_app_db_version"))) {
         qDebug() << "db already initialized";
         return updateDb();
     }
 
     QSqlQuery query(db);
-    QString sql = "CREATE TABLE IF NOT EXISTS db_version(id CHAR(10) PRIMARY KEY);";
+    QString sql = "CREATE TABLE IF NOT EXISTS current_app_db_version(db_version CHAR(10), app_version);";
     if (!query.exec(sql)) {
         qDebug() << "Error executing db_version creation";
         qDebug() << query.lastError().text();
@@ -58,9 +60,7 @@ bool DbInitializer::initDb() {
     return updateDb();
 }
 
-QJsonArray DbInitializer::listDbVersions() {
-    //TODO retrieve app version
-    QString appVersion = "1.0.0";
+QJsonArray DbInitializer::listDbVersions(QString appVersion) {
     QUrl url;
     url.setScheme("http");
     url.setHost("clorofilla.io");
@@ -80,17 +80,25 @@ QJsonArray DbInitializer::listDbVersions() {
     return QJsonDocument::fromJson(reply->readAll()).array();
 }
 
-QStringList DbInitializer::getVersions() {
-    QJsonArray dbVersions = listDbVersions();
+QStringList DbInitializer::getVersions(AppDbVersion currentDbVersion, QString appVersion) {
+    bool newDbVer = currentDbVersion.getDbVersion().isEmpty();
+    QJsonArray dbVersions;
+    try {
+        dbVersions = listDbVersions(appVersion);
+    } catch (const char* msg) {
+        if (newDbVer || currentDbVersion.getAppVersion() != appVersion) {
+            throw msg;
+        } else {
+            qDebug() << msg;
+        }
+    }
     QStringList versionsToGetChanges;
-    QString currentDbVersion = getCurrentDbVersion();
-    bool toAdd = currentDbVersion.isEmpty();
     foreach (const QJsonValue & v, dbVersions) {
-        if (currentDbVersion == v.toString()) {
-            toAdd = true;
+        if (currentDbVersion.getDbVersion() == v.toString()) {
+            newDbVer = true;
             continue;
         }
-        if (toAdd) {
+        if (newDbVer) {
             versionsToGetChanges.append(v.toString());
         }
     }
@@ -98,20 +106,28 @@ QStringList DbInitializer::getVersions() {
 }
 
 bool DbInitializer::updateDb() {
+    QString appVersion = "1.0.0";
+    AppDbVersion currentDbVersion = getCurrentAppDbVersion();
     QStringList versionsToGetChanges;
     try {
-        versionsToGetChanges = getVersions();
+        versionsToGetChanges = getVersions(currentDbVersion, appVersion);
     } catch (const char* msg) {
         qCritical() << msg;
         return false;
     }
-    foreach (const QString v, versionsToGetChanges) {
+    for (int i = 0; i < versionsToGetChanges.size(); i++) {
+        const QString v = versionsToGetChanges.at(i);
         QEventLoop loop;
         reply = qnam->get(QNetworkRequest(QUrl("http://clorofilla.io:8000/changes/caponzoniere/" + v)));
         connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
         if (reply->error()) {
             handleError();
+            if (appVersion == currentDbVersion.getAppVersion()) {
+                return saveNewDbVersion(const_cast<QString &>(versionsToGetChanges.at(i - 1)), appVersion);
+            }
+            qCritical() << "THIS IS REALLY BAD";
+            qCritical() << "IT IS BETTER TO WIPE DB FOLDER AND RESTART THE APP";
             return false;
         }
         try {
@@ -122,7 +138,7 @@ bool DbInitializer::updateDb() {
         }
     }
     if (!versionsToGetChanges.isEmpty()) {
-        return saveNewDbVersion(versionsToGetChanges.last());
+        return saveNewDbVersion(versionsToGetChanges.last(), appVersion);
     }
     return true;
 }
@@ -150,23 +166,26 @@ void DbInitializer::handleError() {
     reply = nullptr;
 }
 
-QString DbInitializer::getCurrentDbVersion() {
+AppDbVersion DbInitializer::getCurrentAppDbVersion() {
     QSqlDatabase m_db = QSqlDatabase::database();
     QSqlQuery query(m_db);
-    if (!query.exec("SELECT id FROM db_version")) {
+    if (!query.exec("SELECT app_version, db_version FROM current_app_db_version")) {
         throw "error retrieving current Db version";
     }
+    ;
     if (query.first()) {
-        return query.value(0).toString();
+        return AppDbVersion(query.value(0).toString(), query.value(1).toString());
     }
-    return "";
+    return AppDbVersion("", "");
 }
 
-bool DbInitializer::saveNewDbVersion(QString &dbVer) {
+bool DbInitializer::saveNewDbVersion(QString &dbVer, QString &appVer) {
     QSqlDatabase m_db = QSqlDatabase::database();
     QSqlQuery query(m_db);
-    if (!query.exec("INSERT INTO db_version (id) VALUES ('" + dbVer + "')")) {
-        qDebug() << "error saving new db version";
+    if (!query.exec("INSERT INTO current_app_db_version (db_version, app_version) VALUES ('" + dbVer + "', '" + appVer + "')")) {
+        qCritical() << "error saving new app db version";
+        qCritical() << "THIS IS REALLY BAD";
+        qCritical() << "IT IS BETTER TO WIPE DB FOLDER AND RESTART THE APP";
         return false;
     }
     return true;

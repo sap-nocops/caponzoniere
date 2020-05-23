@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 
 int showErrorPage() {
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qml/ErrorPage.qml")));
+    engine.load(QUrl(QStringLiteral("qml/MainError.qml")));
     if (engine.rootObjects().isEmpty()) {
         qCritical() << "engine rootObjects is empty";
         return -1;

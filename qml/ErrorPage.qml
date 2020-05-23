@@ -15,19 +15,14 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 
-ApplicationWindow {
-    id: root
-    width: Suru.units.gu(45)
-    height: Suru.units.gu(75)
-    visible: true
+Page{
+    anchors.fill: parent
 
     header: PageHeader {
-        id: header
+        id: errorHeader
         title: i18n.tr('Error')
     }
 
@@ -35,7 +30,7 @@ ApplicationWindow {
         spacing: units.gu(2)
         anchors {
             margins: units.gu(2)
-            top: header.bottom
+            top: errorHeader.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom
