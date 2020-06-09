@@ -49,20 +49,26 @@ Page {
 
             TextInput {
                 id: searchSongTextInput
+                height: parent.height
+                width: parent.width
+                //validator: RegularExpressionValidator { regularExpression: /[a-z]+/ }
                 font.pixelSize: units.gu(3)
                 color: UbuntuColors.red
-                onTextEdited: songModel.setFilterString(text);
-                /*property string placeholderText: i18n.tr('Search...')
+                Keys.onPressed: songFilter.setFilterString(text);
+
+                property string placeholderText: i18n.tr('Search...')
+
                 Text {
                     text: searchSongTextInput.placeholderText
                     color: "#aaa"
                     visible: !searchSongTextInput.text
-                }*/
+                    font.pixelSize: units.gu(3)
+                }
             }
-        }
+       }
 
         ListView {
-            Layout.preferredHeight: parent.height - searchSong.height
+            Layout.preferredHeight: parent.height - searchSongTextInput.height
             Layout.preferredWidth: parent.width
             model: songFilter
             delegate: Item {
@@ -81,5 +87,9 @@ Page {
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        searchSongTextInput.forceActiveFocus();
     }
 }

@@ -18,6 +18,9 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
+import QtQuick.Window 2.2
+import Qt.labs.settings 1.0
+import QtSystemInfo 5.0
 
 ApplicationWindow {
     id: root
@@ -32,5 +35,10 @@ ApplicationWindow {
 
     Component.onCompleted: {
         pageStack.push(Qt.resolvedUrl("Menu.qml"), {})
+    }
+
+    ScreenSaver {
+        id: screen_saver
+        screenSaverEnabled: false
     }
 }

@@ -26,14 +26,15 @@ Page {
     property string pageTitle
     property string textType
     property var colors
+    property var colorNames
     
     header: PageHeader {
         id: header
         title: randomTextPage.pageTitle
     }
 
-    ColumnLayout {
-        spacing: units.gu(2)
+    Column {
+        //spacing: units.gu(2)
         anchors {
             margins: units.gu(2)
             top: header.bottom
@@ -43,32 +44,35 @@ Page {
         }
 
         Text {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: parent.width - units.gu(1)
+            id: colorsHeader
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width - units.gu(1)
             font.pixelSize: units.gu(3)
-            text: i18n.tr('Colors: ') + colors
+            text: i18n.tr('Colors: ') + colorNames
             color: Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
 
         Text {
             id: banner
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: parent.width - units.gu(1)
-            font.pixelSize: units.gu(6)
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            width: parent.width - units.gu(1)
+            height: parent.height - colorsHeader.height
+            font.pixelSize: units.gu(6)
             text: i18n.tr('Choose one color each singer and sing when the text is of your color')
             color:  Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
-        
+
         Text {
             id: randomTextDisplay
             visible: false
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: parent.width - units.gu(1)
-            font.pixelSize: units.gu(8)
+            width: parent.width - units.gu(1)
+            height: parent.height - colorsHeader.height
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: units.gu(8)
             color:  Theme.palette.normal.foregroundText
             wrapMode: Text.Wrap
         }
