@@ -1,4 +1,5 @@
 {
-  "template": "cmake",
+  "builder": "cmake",
+  "clickable_minimum_required": "7.0.1",
   "kill": "caponzoniere"
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: caponzoniere.sap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-09 14:40+0000\n"
+"POT-Creation-Date: 2022-01-19 23:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,36 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/Songs.qml:27
-msgid "Songs"
+#: ../qml/ErrorPage.qml:26
+msgid "Error"
 msgstr ""
 
-#: ../qml/Songs.qml:59
-msgid "Search..."
+#: ../qml/ErrorPage.qml:45
+msgid "Cannot initialize the app. Please check your internet connection"
+msgstr ""
+
+#: ../qml/Menu.qml:27 caponzoniere.desktop.in.h:1
+msgid "Caponzoniere"
+msgstr ""
+
+#: ../qml/Menu.qml:50
+msgid "Songs lyrics"
+msgstr ""
+
+#: ../qml/Menu.qml:57 ../qml/Menu.qml:58
+msgid "Random Songs"
+msgstr ""
+
+#: ../qml/Menu.qml:64 ../qml/Menu.qml:65
+msgid "Random Topics"
+msgstr ""
+
+#: ../qml/RandomTextsPage.qml:51
+msgid "Colors: "
+msgstr ""
+
+#: ../qml/RandomTextsPage.qml:63
+msgid "Choose one color each singer and sing when the text is of your color"
 msgstr ""
 
 #: ../qml/Singers.qml:29
@@ -62,34 +86,10 @@ msgstr ""
 msgid "purple"
 msgstr ""
 
-#: ../qml/ErrorPage.qml:26
-msgid "Error"
+#: ../qml/Songs.qml:27
+msgid "Songs"
 msgstr ""
 
-#: ../qml/ErrorPage.qml:45
-msgid "Cannot initialize the app. Please check your internet connection"
-msgstr ""
-
-#: ../qml/Menu.qml:27 caponzoniere.desktop.in.h:1
-msgid "Caponzoniere"
-msgstr ""
-
-#: ../qml/Menu.qml:50
-msgid "Songs lyrics"
-msgstr ""
-
-#: ../qml/Menu.qml:57 ../qml/Menu.qml:58
-msgid "Random Songs"
-msgstr ""
-
-#: ../qml/Menu.qml:64 ../qml/Menu.qml:65
-msgid "Random Topics"
-msgstr ""
-
-#: ../qml/RandomTextsPage.qml:51
-msgid "Colors: "
-msgstr ""
-
-#: ../qml/RandomTextsPage.qml:63
-msgid "Choose one color each singer and sing when the text is of your color"
+#: ../qml/Songs.qml:59
+msgid "Search..."
 msgstr ""
