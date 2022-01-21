@@ -146,6 +146,9 @@ bool DbInitializer::updateDb() {
 void DbInitializer::applyChange() {
     QString change = QString::fromUtf8(reply->readAll());
     QSqlDatabase db = QSqlDatabase::database();
+    if (!db.transaction()) {
+        throw "error cannot open transaction";
+    }
     QSqlQuery query(db);
     QStringList statements = change.split(";", QString::SkipEmptyParts);
     foreach (QString statement, statements) {
@@ -155,8 +158,14 @@ void DbInitializer::applyChange() {
         if (!query.exec(statement)) {
             qDebug() << query.lastError().text();
             qDebug() << "SQLite string: " << query.lastQuery();
+            if (!db.rollback()) {
+                throw "error applying Db change, could not rollback";
+            }
             throw "error applying Db change";
         }
+    }
+    if (!db.commit()) {
+        throw "error cannot commit";
     }
 }
 
