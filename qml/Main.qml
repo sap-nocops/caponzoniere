@@ -39,6 +39,6 @@ ApplicationWindow {
 
     ScreenSaver {
         id: screen_saver
-        screenSaverEnabled: false
+        screenSaverEnabled: !(Qt.application.state == Qt.ApplicationActive)
     }
 }
