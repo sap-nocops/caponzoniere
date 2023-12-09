@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Layouts 1.3
-import Ubuntu.Components 1.3
+import Lomiri.Components 1.3
 
 Page {
     id: singers

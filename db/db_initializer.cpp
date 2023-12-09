@@ -34,6 +34,7 @@ bool DbInitializer::createDbFolderIfNotExists(const QString &dbPath) {
 }
 
 bool DbInitializer::initDb() {
+    qDebug() << "initDb";
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     QString dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/db");
     if (!createDbFolderIfNotExists(dbPath)) {
@@ -50,6 +51,7 @@ bool DbInitializer::initDb() {
         return updateDb();
     }
 
+    qDebug() << "CREATE ";
     QSqlQuery query(db);
     QString sql = "CREATE TABLE IF NOT EXISTS current_app_db_version(db_version CHAR(10), app_version);";
     if (!query.exec(sql)) {
@@ -63,7 +65,7 @@ bool DbInitializer::initDb() {
 QJsonArray DbInitializer::listDbVersions(QString appVersion) {
     QUrl url;
     url.setScheme("http");
-    url.setHost("clorofilla.io");
+    url.setHost("capoeirafirenze.com");
     url.setPath("/versions/caponzoniere/" + appVersion);
     url.setPort(8000);
     QNetworkRequest request;
@@ -88,9 +90,8 @@ QStringList DbInitializer::getVersions(AppDbVersion currentDbVersion, QString ap
     } catch (const char* msg) {
         if (newDbVer || currentDbVersion.getAppVersion() != appVersion) {
             throw msg;
-        } else {
-            qDebug() << msg;
         }
+        qDebug() << msg;
     }
     QStringList versionsToGetChanges;
     foreach (const QJsonValue & v, dbVersions) {
@@ -106,6 +107,7 @@ QStringList DbInitializer::getVersions(AppDbVersion currentDbVersion, QString ap
 }
 
 bool DbInitializer::updateDb() {
+    qDebug() << "updateDb";
     QString appVersion = "1.0.0";
     AppDbVersion currentDbVersion = getCurrentAppDbVersion();
     QStringList versionsToGetChanges;
@@ -115,10 +117,11 @@ bool DbInitializer::updateDb() {
         qCritical() << msg;
         return false;
     }
+    qDebug() << "versionsToGetChanges:  " << versionsToGetChanges;
     for (int i = 0; i < versionsToGetChanges.size(); i++) {
         const QString v = versionsToGetChanges.at(i);
         QEventLoop loop;
-        reply = qnam->get(QNetworkRequest(QUrl("http://clorofilla.io:8000/changes/caponzoniere/" + v)));
+        reply = qnam->get(QNetworkRequest(QUrl("http://capoeirafirenze.com:8000/changes/caponzoniere/" + v)));
         connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
         loop.exec();
         if (reply->error()) {
