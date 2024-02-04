@@ -21,8 +21,7 @@ set(QT_IMPORTS_DIR "lib/${ARCH_TRIPLET}")
 
 set(PROJECT_NAME "caponzoniere")
 set(FULL_PROJECT_NAME "caponzoniere.sap")
-set(CMAKE_INSTALL_PREFIX /)
-set(DATA_DIR /)
+set(DATA_DIR ${CMAKE_INSTALL_PREFIX})
 set(DESKTOP_FILE_NAME ${PROJECT_NAME}.desktop)
 
 # This command figures out the target architecture for use in the manifest file
@@ -38,7 +37,7 @@ else()
 endif()
 
 configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.json)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${DATA_DIR})
 install(FILES ${PROJECT_NAME}.apparmor DESTINATION ${DATA_DIR})
 install(DIRECTORY qml DESTINATION ${DATA_DIR})
 install(DIRECTORY assets DESTINATION ${DATA_DIR})

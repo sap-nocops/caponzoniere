@@ -28,7 +28,8 @@ Page {
     }
 
     ColumnLayout {
-        spacing: 1
+        spacing: 3
+
         anchors {
             margins: units.gu(1)
             top: songsHeader.bottom
@@ -37,38 +38,18 @@ Page {
             bottom: parent.bottom
         }
 
-        Rectangle {
-            id: searchSong
-            Layout.preferredHeight: units.gu(5)
+        TextField {
+            id: searchSongTextInput
             Layout.preferredWidth: parent.width
-            border.width: 1
-            border.color: UbuntuColors.green
-            color: Theme.palette.normal.background
-            radius: 5
-            focus: true
-
-            TextInput {
-                id: searchSongTextInput
-                height: parent.height
-                width: parent.width
-                //validator: RegularExpressionValidator { regularExpression: /[a-z]+/ }
-                font.pixelSize: units.gu(3)
-                color: UbuntuColors.red
-                Keys.onPressed: songFilter.setFilterString(text);
-
-                property string placeholderText: i18n.tr('Search...')
-
-                Text {
-                    text: searchSongTextInput.placeholderText
-                    color: "#aaa"
-                    visible: !searchSongTextInput.text
-                    font.pixelSize: units.gu(3)
-                }
+            onAccepted: {
+                songFilter.setFilterString(text)
             }
-       }
+
+            placeholderText: i18n.tr('Search...')
+        }
 
         ListView {
-            Layout.preferredHeight: parent.height - searchSongTextInput.height
+            Layout.preferredHeight: parent.height - searchSongTextInput.height - units.gu(3)
             Layout.preferredWidth: parent.width
             model: songFilter
             delegate: Item {
@@ -78,6 +59,7 @@ Page {
                     text: title
                     font.pixelSize: units.gu(3)
                     color: Theme.palette.normal.foregroundText
+                    wrapMode: Text.Wrap
                 }
 
                 MouseArea {
@@ -87,9 +69,5 @@ Page {
                 }
             }
         }
-    }
-
-    Component.onCompleted: {
-        searchSongTextInput.forceActiveFocus();
     }
 }

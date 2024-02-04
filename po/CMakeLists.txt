@@ -18,6 +18,7 @@ add_custom_target(${POT_FILE} ALL
         --c++ --qt --language=javascript --add-comments=TRANSLATORS
         --keyword=tr --keyword=tr:1,2 --keyword=N_ --keyword=_
         --package-name='${DOMAIN}'
+        --sort-by-file
         ${I18N_SRC_FILES}
     COMMAND ${CMAKE_COMMAND} -E copy ${POT_FILE} ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -26,7 +27,7 @@ add_custom_target(${POT_FILE} ALL
 foreach(PO_FILE ${PO_FILES})
     get_filename_component(LANG ${PO_FILE} NAME_WE)
     gettext_process_po_files(${LANG} ALL PO_FILES ${PO_FILE})
-    set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/share/locale/${LANG}/LC_MESSAGES)
+    set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LANG}.gmo
             DESTINATION ${INSTALL_DIR}
             RENAME ${DOMAIN}.mo)

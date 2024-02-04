@@ -30,20 +30,18 @@ Page {
         title: songTitle
     }
 
-    Text {
-       id: lyricsText
-       anchors {
-           margins: units.gu(1)
-           top: lyricsHeader.bottom
-           left: parent.left + units.gu(1)
-           right: parent.right - units.gu(1)
-           bottom: parent.bottom
-       }
-       height: parent.height - lyricsHeader.height
-       width: parent.width
-       color: Theme.palette.normal.foregroundText
-       font.pixelSize: units.gu(5)
-       wrapMode: Text.Wrap
+    ScrollView {
+        height: parent.height - lyricsHeader.height
+        width: parent.width
+        clip: true
+        anchors {
+            top: lyricsHeader.bottom
+        }
+        Label {
+           id: lyricsText
+           color: Theme.palette.normal.foregroundText
+           font.pixelSize: units.gu(4)
+        }
     }
 
     Component.onCompleted: {
