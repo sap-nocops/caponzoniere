@@ -1,0 +1,95 @@
+# Italian translation for caponzoniere
+# Copyright (C) 2024
+# This file is distributed under the same license as the caponzoniere.sap package.
+# Lorenzo Torracchi <lorenzotorracchi@mail.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: caponzoniere.sap\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-04 18:48+0000\n"
+"PO-Revision-Date: 2024-02-04 10:54+0100\n"
+"Last-Translator: Lorenzo Torracchi <lorenzotorracchi@mail.com>\n"
+"Language-Team: Lorenzo Torracchi <lorenzotorracchi@mail.com>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
+
+#: ../qml/ErrorPage.qml:26
+msgid "Error"
+msgstr "Errore"
+
+#: ../qml/ErrorPage.qml:45
+msgid "Cannot initialize the app. Please check your internet connection"
+msgstr "L'applicazione non può essere inizializzata. Controlla la connessione ad internet"
+
+#: ../qml/Menu.qml:27 caponzoniere.desktop.in.h:1
+msgid "Caponzoniere"
+msgstr "Caponzoniere"
+
+#: ../qml/Menu.qml:50
+msgid "Songs lyrics"
+msgstr "Testi"
+
+#: ../qml/Menu.qml:57 ../qml/Menu.qml:58
+msgid "Random Songs"
+msgstr "Canzoni casuali"
+
+#: ../qml/Menu.qml:64 ../qml/Menu.qml:65
+msgid "Random Topics"
+msgstr "Argomenti casuali"
+
+#: ../qml/RandomTextsPage.qml:51
+msgid "Colors: "
+msgstr "Colori: "
+
+#: ../qml/RandomTextsPage.qml:63
+msgid "Choose one color each singer and sing when the text is of your color"
+msgstr "Ogni cantante scelga un colore e canti quando il testo è del suo colore"
+
+#: ../qml/Singers.qml:29
+msgid "Choose Singers"
+msgstr "Scegli il numero dei cantanti"
+
+#: ../qml/Singers.qml:44
+msgid "One Singer"
+msgstr "Un cantante"
+
+#: ../qml/Singers.qml:45 ../qml/Singers.qml:52 ../qml/Singers.qml:59
+#: ../qml/Singers.qml:66
+msgid "blue"
+msgstr "blu"
+
+#: ../qml/Singers.qml:51
+msgid "Two Singer"
+msgstr "Due cantanti"
+
+#: ../qml/Singers.qml:52 ../qml/Singers.qml:59 ../qml/Singers.qml:66
+msgid "red"
+msgstr "rosso"
+
+#: ../qml/Singers.qml:58
+msgid "Three Singer"
+msgstr "Tre cantanti"
+
+#: ../qml/Singers.qml:59 ../qml/Singers.qml:66
+msgid "yellow"
+msgstr "giallo"
+
+#: ../qml/Singers.qml:65
+msgid "Four Singer"
+msgstr "Quattro cantanti"
+
+#: ../qml/Singers.qml:66
+msgid "purple"
+msgstr "viola"
+
+#: ../qml/Songs.qml:27
+msgid "Songs"
+msgstr "Canzoni"
+
+#: ../qml/Songs.qml:59
+msgid "Search..."
+msgstr "Cerca..."
