@@ -89,7 +89,7 @@ QStringList DbInitializer::getVersions(AppDbVersion currentDbVersion, QString ap
         if (newDbVer || currentDbVersion.getAppVersion() != appVersion) {
             throw msg;
         }
-        qDebug() << msg;
+        qDebug() << "getVersions: " << msg;
     }
     QStringList versionsToGetChanges;
     foreach (const QJsonValue & v, dbVersions) {
@@ -111,7 +111,7 @@ bool DbInitializer::updateDb() {
     try {
         versionsToGetChanges = getVersions(currentDbVersion, appVersion);
     } catch (const char* msg) {
-        qCritical() << msg;
+        qCritical() << "updateDb: " << msg;
         return false;
     }
     for (int i = 0; i < versionsToGetChanges.size(); i++) {

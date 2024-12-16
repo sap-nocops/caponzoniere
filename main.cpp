@@ -36,18 +36,27 @@
 
 #define foreach Q_FOREACH
 
-int showErrorPage();
+int showErrorPage(int argc, char *argv[]) {
+    QGuiApplication *app = new QGuiApplication(argc, argv);
+    app->setApplicationName("caponzoniere.sap");
+    QQuickView *view = new QQuickView();
+    view->setSource(QUrl("qrc:/MainError.qml"));
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->show();
+    return app->exec();
+}
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-    QGuiApplication::setApplicationName("caponzoniere.sap");
+    QGuiApplication *app = new QGuiApplication(argc, argv);
+    app->setApplicationName("caponzoniere.sap");
 
     QQuickStyle::setStyle("Suru");
 
     DbInitializer dbInit;
     if (!dbInit.initDb()) {
-        return showErrorPage();
+        qWarning() << "cannot load songs";
+        return showErrorPage(argc, argv);
     }
 
     SongModel songModel;
@@ -69,22 +78,11 @@ int main(int argc, char *argv[]) {
     filterModel.setFilterRole(SongModel::SongRoles::Title);
     filterModel.setSortRole(SongModel::SongRoles::Title);
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qml/Main.qml")));
-    if (engine.rootObjects().isEmpty()) {
-        qCritical() << "engine rootObjects is empty";
-        return -1;
-    }
-    engine.rootContext()->setContextProperty("songFilter", &filterModel);
-    return QGuiApplication::exec();
-}
+    QQuickView *view = new QQuickView();
+    view->rootContext()->setContextProperty("songFilter", &filterModel);
+    view->setSource(QUrl("qrc:/Main.qml"));
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->show();
 
-int showErrorPage() {
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qml/MainError.qml")));
-    if (engine.rootObjects().isEmpty()) {
-        qCritical() << "engine rootObjects is empty";
-        return -1;
-    }
-    return QGuiApplication::exec();
+    return app->exec();
 }

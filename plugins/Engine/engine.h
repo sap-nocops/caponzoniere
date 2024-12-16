@@ -18,6 +18,7 @@
 #define ENGINE_H
 
 #include <QObject>
+#include <QScopedPointer>
 
 #include "worker.h"
 
@@ -36,7 +37,7 @@ public:
     Q_INVOKABLE QString getSongLyrics(int id);
 
 private:
-    Worker* worker;
+    QScopedPointer<Worker> worker;
 };
 
 #endif

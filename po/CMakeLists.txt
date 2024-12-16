@@ -17,6 +17,7 @@ add_custom_target(${POT_FILE} ALL
         --from-code=UTF-8
         --c++ --qt --language=javascript --add-comments=TRANSLATORS
         --keyword=tr --keyword=tr:1,2 --keyword=N_ --keyword=_
+        --keyword=dtr:2 --keyword=dtr:2,3 --keyword=tag --keyword=tag:1c,2
         --package-name='${DOMAIN}'
         --sort-by-file
         ${I18N_SRC_FILES}

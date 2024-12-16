@@ -22,8 +22,11 @@ import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
 import QtSystemInfo 5.0
 
-ApplicationWindow {
+MainView {
     id: root
+    objectName: 'mainView'
+    applicationName: "caponzoniere.sap"
+    automaticOrientation: true
     width: Suru.units.gu(45)
     height: Suru.units.gu(75)
     visible: true
@@ -34,11 +37,11 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("Menu.qml"), {})
+        pageStack.push(Qt.resolvedUrl("qrc:/Menu.qml"), {})
     }
 
     ScreenSaver {
         id: screen_saver
-        screenSaverEnabled: !(Qt.application.state == Qt.ApplicationActive)
+        screenSaverEnabled: Qt.application.state !== Qt.ApplicationActive
     }
 }

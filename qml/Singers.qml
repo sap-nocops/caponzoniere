@@ -42,28 +42,28 @@ Page {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('One Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue')], colors: ['#0000ff']})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue')], colors: ['#0000ff']})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Two Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red')], colors: ['#0000ff', '#ff0000']})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red')], colors: ['#0000ff', '#ff0000']})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Three Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow')], colors: ['#0000ff', '#ff0000', '#ffff00']})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow')], colors: ['#0000ff', '#ff0000', '#ffff00']})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Four Singer')
-            onClicked: pageStack.push(Qt.resolvedUrl("RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow'), i18n.tr('purple')], colors: ['#0000ff', '#ff0000', '#ffff00', '#a020f0']})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/RandomTextsPage.qml"), {pageTitle: singers.pageTitle, textType: singers.textType, colorNames: [i18n.tr('blue'), i18n.tr('red'), i18n.tr('yellow'), i18n.tr('purple')], colors: ['#0000ff', '#ff0000', '#ffff00', '#a020f0']})
         }
     }
 }

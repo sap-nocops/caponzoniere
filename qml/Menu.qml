@@ -48,21 +48,21 @@ Page {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Songs lyrics')
-            onClicked: pageStack.push(Qt.resolvedUrl("Songs.qml"))
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/Songs.qml"))
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Random Songs')
-            onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Songs'), textType: "songs"})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/Singers.qml"), {pageTitle: i18n.tr('Random Songs'), textType: "songs"})
         }
 
         Button {
             Layout.preferredWidth: parent.width - units.gu(4)
             Layout.alignment: Qt.AlignHCenter
             text: i18n.tr('Random Topics')
-            onClicked: pageStack.push(Qt.resolvedUrl("Singers.qml"), {pageTitle: i18n.tr('Random Topics'), textType: "topics"})
+            onClicked: pageStack.push(Qt.resolvedUrl("qrc:/Singers.qml"), {pageTitle: i18n.tr('Random Topics'), textType: "topics"})
         }
     }
 }

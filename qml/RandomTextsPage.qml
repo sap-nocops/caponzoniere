@@ -111,7 +111,7 @@ Page {
         property int countDown: 5
         triggeredOnStart: true
         onTriggered: {
-            if (countDown == 0) {
+            if (countDown === 0) {
                 countDownTimer.stop();
                 startRandomTexts();
             }
@@ -125,7 +125,7 @@ Page {
     } 
 
     function pickRandomColor(currentColor) {
-        if (colors.length == 1) {
+        if (colors.length === 1) {
             return colors[0];
         }
         var randomColor;
@@ -133,7 +133,7 @@ Page {
         do {
             random = Math.floor(Math.random() * colors.length);
             randomColor = colors[random];
-        } while (randomColor == currentColor);
+        } while (randomColor === currentColor);
         return randomColor;
     }
 }

@@ -23,20 +23,20 @@ Engine::Engine() {
 
 Engine::~Engine() {
     qDebug() << "destroying engine";
-    if (worker) {
+    if (!worker.isNull()) {
         worker->stop();
     }
 }
 
 void Engine::playRandomTexts(const QString &textType) {
     if (textType == "songs") {
-        worker = new Worker(new RandomSongStrategy());
+        worker.reset(new Worker(new RandomSongStrategy()));
     } else {
-        worker = new Worker(new RandomTopicStrategy());
+        worker.reset(new Worker(new RandomTopicStrategy()));
     }
-    connect(worker, SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
+    connect(worker.data(), SIGNAL (randomTextChanged(QString)), this, SIGNAL (randomTextChanged(QString)));
 
-    QThreadPool::globalInstance()->start(worker);
+    QThreadPool::globalInstance()->start(worker.data());
 }
 
 void Engine::stopRandomTexts() {

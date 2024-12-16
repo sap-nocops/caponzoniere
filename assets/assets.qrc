@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file>logo.svg</file>
+        <file>gnu_tux_capoeira.svg</file>
+    </qresource>
+</RCC>

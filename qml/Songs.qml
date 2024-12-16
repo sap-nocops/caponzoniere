@@ -65,7 +65,7 @@ Page {
                 MouseArea {
                     height: parent.height
                     width: parent.width
-                    onClicked: pageStack.push(Qt.resolvedUrl("Lyrics.qml"), {songTitle: title, songId: id})
+                    onClicked: pageStack.push(Qt.resolvedUrl("qrc:/Lyrics.qml"), {songTitle: title, songId: id})
                 }
             }
         }

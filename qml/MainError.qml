@@ -31,6 +31,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("ErrorPage.qml"), {})
+        pageStack.push(Qt.resolvedUrl("qrc:/ErrorPage.qml"), {})
     }
 }
