@@ -17,20 +17,45 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Suru 2.2
+import QtQuick.Layouts 1.3
 import Lomiri.Components 1.3
 
-ApplicationWindow {
+MainView {
     id: root
+    objectName: 'mainView'
+    applicationName: 'caponzoniere.sap'
+    automaticOrientation: true
     width: Suru.units.gu(45)
     height: Suru.units.gu(75)
-    visible: true
 
-    PageStack {
-        id: pageStack
+    Page{
         anchors.fill: parent
-    }
 
-    Component.onCompleted: {
-        pageStack.push(Qt.resolvedUrl("qrc:/ErrorPage.qml"), {})
+        header: PageHeader {
+            id: errorHeader
+            title: i18n.tr('Error')
+        }
+
+        ColumnLayout {
+            spacing: units.gu(2)
+            anchors {
+                margins: units.gu(2)
+                top: errorHeader.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            Text {
+                id: banner
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: parent.width - units.gu(1)
+                font.pixelSize: units.gu(6)
+                horizontalAlignment: Text.AlignHCenter
+                text: i18n.tr('Cannot initialize the app. Please check your internet connection')
+                color:  Theme.palette.normal.foregroundText
+                wrapMode: Text.Wrap
+            }
+        }
     }
 }

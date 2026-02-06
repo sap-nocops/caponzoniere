@@ -1,8 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>Main.qml</file>
-        <file>ErrorPage.qml</file>
         <file>Lyrics.qml</file>
+        <file>Main.qml</file>
         <file>MainError.qml</file>
         <file>Menu.qml</file>
         <file>RandomTextsPage.qml</file>

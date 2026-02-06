@@ -19,17 +19,16 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Suru 2.2
 import Lomiri.Components 1.3
 import QtQuick.Window 2.2
-import Qt.labs.settings 1.0
+//import Qt.labs.settings 1.0
 import QtSystemInfo 5.0
 
 MainView {
     id: root
     objectName: 'mainView'
-    applicationName: "caponzoniere.sap"
+    applicationName: 'caponzoniere.sap'
     automaticOrientation: true
     width: Suru.units.gu(45)
     height: Suru.units.gu(75)
-    visible: true
 
     PageStack {
         id: pageStack

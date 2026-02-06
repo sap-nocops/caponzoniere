@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.1\n"
 
-#: ../qml/ErrorPage.qml:26
+#: ../qml/MainError.qml:35
 msgid "Error"
 msgstr "Foutmelding"
 
-#: ../qml/ErrorPage.qml:45
+#: ../qml/MainError.qml:54
 msgid "Cannot initialize the app. Please check your internet connection"
 msgstr "De app kan niet worden gestart. Controleer je internetverbinding."
 
@@ -90,6 +90,6 @@ msgstr "paars"
 msgid "Songs"
 msgstr "Nummers"
 
-#: ../qml/Songs.qml:59
+#: ../qml/Songs.qml:48
 msgid "Search..."
 msgstr "Zoeken…"

@@ -32,6 +32,7 @@
 #include "model/song_model.h"
 #include "model/song.h"
 #include "model/songfilterproxymodel.h"
+#include <libintl.h>
 #include "db/db_initializer.h"
 
 #define foreach Q_FOREACH
@@ -47,11 +48,17 @@ int showErrorPage(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication *app = new QGuiApplication(argc, argv);
-    app->setApplicationName("caponzoniere.sap");
-
+    app->setApplicationName(QStringLiteral("caponzoniere.sap"));
+    app->setOrganizationName(QStringLiteral("caponzoniere.sap"));
+    app->setOrganizationDomain(QStringLiteral("caponzoniere.sap"));
+    app->setApplicationDisplayName(QStringLiteral("Caponzoniere"));
     QQuickStyle::setStyle("Suru");
+
+    setlocale(LC_ALL, "");
+    bindtextdomain("caponzoniere.sap", "/opt/click.ubuntu.com/caponzoniere.sap/current/share/locale");
+    bind_textdomain_codeset("caponzoniere.sap", "UTF-8");
+    textdomain(QStringLiteral("caponzoniere.sap").toStdString().c_str());
 
     DbInitializer dbInit;
     if (!dbInit.initDb()) {
